@@ -80,7 +80,6 @@ footer {
     flex-grow: 0;
 }
 
-h1,
 #top nav,
 #top ul,
 #top nav a {
@@ -97,13 +96,7 @@ h1,
 }
 
 #top nav ul {
-    /* box-sizing: border-box; */
-    /* margin: 0px; */
-    /* min-width: 0px; */
-    /* -webkit-box-pack: justify; */
-    /* justify-content: space-between; */
-    /* align-items: flex-start; */
-    display: grid;
+    display: flex;
     text-align: right;
     width: 100%;
 }
@@ -111,19 +104,7 @@ h1,
 #top nav li {
     display: inline;
     padding-right: 4em;
-}
-
-@media screen and (min-width: 60em) {
-    #top nav ul {
-        display: flex;
-    }
-}
-
-h1 {
-    padding: 0 0.3em;
-    font-size: 1em;
-    font-weight: normal;
-    text-transform: uppercase;
+    font-size: 14pt;
 }
 
 #top li {
@@ -148,23 +129,46 @@ h1 {
 
 main {
     padding: 40px;
+    font-size: 24px;
 }
 
-section {
+ul {
+    padding-left: 1.5em;
+}
+
+.blog-post {
     box-sizing: border-box;
     min-width: 0px;
     font-family: var(--common-font);
     font-weight: 400;
     line-height: 1.4;
-    font-size: 24px;
+    padding-bottom: 2em;
 }
 
-section ul,ol {
+.blog-post a {
+    color: #222;
+}
+
+.blog-post time {
+    color: #666;
+    display: inline;
+    font-size: 75%;
+    margin: 0;
+    padding: 0;
+}
+
+.blog-post p,
+ul {
+    margin-bottom: .7em;
+}
+
+.blog-post ul,
+ol {
     margin-left: 2em;
     font-size: 90%;
 }
 
-section a {
+.blog-post section a {
     font-family: var(--accent-font);
     font-size: 1.1em;
     color: var(--text-color);
@@ -172,14 +176,22 @@ section a {
     background: linear-gradient(0deg, transparent 10%, var(--accent-color) 10%, var(--accent-color) 20%, transparent 20%, transparent 100%);
 }
 
+.blog-post h1 a {
+    display: block;
+    font-size: 1em;
+    font-weight: normal;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2rem;
+    text-decoration: none;
+}
 
-section a:hover {
+.blog-post a:hover {
     color: var(--text-hover-color);
     font-style: italic;
     background: linear-gradient(0deg, transparent 10%, var(--accent-color) 10%, var(--accent-color) 90%, transparent 90%, transparent 90%);
 }
 
-section a:hover:after {
+.blog-post a:hover:after {
     content: "⇗";
     padding-left: 4px;
     padding-right: 4px;
@@ -187,7 +199,7 @@ section a:hover:after {
     z-index: 10;
 }
 
-section h2 {
+.blog-post h2 {
     box-sizing: border-box;
     margin: 0px 0px 16px;
     min-width: 0px;
@@ -203,6 +215,7 @@ section h2 {
 }
 
 /* HELLO, MY NAME IS... */
+
 .vcard {
     width: 180px;
     height: 128px;
@@ -233,7 +246,7 @@ p {
     font-size: 1.5em;
 }
 
-.fn {
+.vcard .fn {
     background: #fff;
     height: 61px;
     font-family: "Bradley Hand ITC", "Bradley Hand", Haettenschweiler, "Arial Narrow Bold", sans-serif;
@@ -250,7 +263,14 @@ p {
 }
 
 .vcard a {
-    text-decoration: none;;
+    text-decoration: none;
+}
+
+.vcard h1 {
+    padding: 0 0.3em;
+    font-size: 1em;
+    font-weight: normal;
+    text-transform: uppercase;
 }
 
 .nickname {
@@ -259,23 +279,56 @@ p {
     font-style: normal;
 }
 
-#resume_icons {
-    padding:0;
-    margin:0;
-    max-height:45px;
-    display: inline-block;
-    flex-grow:1;
-}
-
-#resume_icons > a,img {
+#icon_bar {
+    padding: 0;
+    margin: 0;
+    max-height: 45px;
+    flex-grow: 1;
     float: right;
     margin: 2px;
     object-fit: cover;
+}
+
+#icon_bar a {
+    text-decoration: none;
+}
+
+#icon_bar a img {
     width: 28px;
     height: 28px;
 }
 
-#resume_frame {
-    padding:0;
-    border:0;
+@media screen and (max-width: 60em) {
+    main {
+        padding: 20px;
+    }
+
+    #top nav ul {
+        display: grid;
+        font-size: 1em;
+    }
+
+    #top nav li {
+        display: inline;
+        padding-right: 1em;
+        font-size: 12pt;
+    }
+
+    .vcard {
+        width: 135px;
+        height: 96px;
+    }
+
+    .vcard h1 {
+        font-size: 1.5em;
+    }
+
+    .vcard .fn {
+        height: 30px;
+        padding-top: 0;
+    }
+
+    .vcard .given-name {
+        font-size: 1.8em;
+    }
 }

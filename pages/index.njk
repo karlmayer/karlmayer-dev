@@ -1,0 +1,26 @@
+---
+layout: base.njk
+title: Blog
+pagination:
+  data: collections.posts
+  size: 10
+  reverse: true
+---
+
+<span id="icon_bar">
+  <a href="/feed.json">
+    <img src="/images/feed_icon.svg" alt="Atom/RSS Feed">
+  </a>
+</span>
+{% for post in collections.posts %}
+  <article class="blog-post">
+    <time datetime="{{ post.date | dateIso }}">{{ post.date | dateInternational }}</time><br>
+    <h1>
+      <a href="{{ post.url | url }}">{{ post.data.title }}</a>
+    </h1>
+    <section>
+      {% excerpt post %}
+      <a href="{{ post.url | url }}" aria-label="Read more on {{ post.data.title }}">Read more...</a>
+    </section>
+  </article>
+{% endfor %}

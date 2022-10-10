@@ -1,0 +1,74 @@
+{% set css %}
+{% include "../_css/base.css" %}
+{% endset %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Musing and thought on people, practices and innovation in IT">
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon.ico">
+    <title>Karl Mayer - {{ title }}</title>
+    <style>
+      {{css | cssmin | safe}}
+    </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KLBXE58Z2K"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-KLBXE58Z2K');
+    </script>
+    <!-- -->
+  </head>
+  <body>
+    <header id="top">
+      <link rel="profile" href="http://microformats.org/profile/hcard">
+      <article class="vcard">
+        <div>
+          <h1>Hello</h1>
+          <p>my name is</p>
+        </div>
+        <div class="fn">
+          <a href="/post/2022/10/06/hello-world/">
+            <p class="given-name">Karl Mayer</p>
+          </a>
+        </div>
+      </article>
+      <nav>
+        <ul>
+          <li>
+            <a href="/">Blog</a>
+          </li>
+          <li>
+            <a href="/resume">Résumé</a>
+          </li>
+          {# <li>
+            <a href="/mindmap">Mindmap</a>
+          </li> #}
+          <li>
+            <a href="/library">Athenaeum</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <main>
+      {{ content | safe }}
+    </main>
+  </body>
+  <script>
+    // set target for external links to open in a separate tab
+    var a = document.querySelectorAll('a');
+    for (var i = 0; i < a.length; i++) {
+      var href = a[i]
+        .href
+        .toLowerCase();
+      if (href.startsWith("http") && !(href.includes("://localhost") || href.includes("://karlmayer.dev"))) {
+        a[i].setAttribute('target', '_blank');
+      }
+    }
+  </script>
+</html>
