@@ -1,16 +1,11 @@
 {
   "scripts": {
-    "build-resume-pdf": "npx resume export --theme ./resume/ --resume ./resume/resume.yaml ./dist/resume/resume.pdf",
-    "build-resume-html": "mkdir ./dist/resume; npx resume export --theme ./resume/ --resume ./resume/resume.yaml ./dist/resume/resume.html",
-    "serve-resume": "npx resume serve --theme ./resume/  --resume ./resume/resume.yaml",
-    "validate-resume": "npx resume validate --resume ./resume/resume.yaml",
     "start": "npx @11ty/eleventy --serve"
   },
   "devDependencies": {
     "@11ty/eleventy": "^1.0.1",
     "@11ty/eleventy-plugin-rss": "^1.2.0",
     "moment": "^2.29.4",
-   "clean-css": "^5.3.1",
-   "resume-cli": "karlmayer/resume-cli"
+    "clean-css": "^5.3.1"
   }
 }

@@ -36,7 +36,6 @@ module.exports = function (eleventyConfig) {
     return {
         dir: {
             input: "pages",
-            // ⚠️ These values are both relative to your input directory.
             includes: "_includes",
             layouts: "_layouts",
             output: "dist",
