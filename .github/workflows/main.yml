@@ -1,4 +1,4 @@
-name: Deploy about-me
+name: Deploy karlmayer-dev
 
 # Controls when the workflow will run
 on:
@@ -30,10 +30,6 @@ jobs:
         run: npm install
       - name: 11ty build
         run: npx @11ty/eleventy
-      - name: Resume build
-        run: |
-          npm run build-resume-html
-          npm run build-resume-pdf
       - name: Upload artifact
         with:
           path: dist/
