@@ -132,7 +132,8 @@ main {
     font-size: 24px;
 }
 
-ul {
+ul,
+ol {
     padding-left: 1.5em;
 }
 
@@ -158,7 +159,8 @@ ul {
 }
 
 .blog-post p,
-ul {
+ul,
+ol {
     margin-bottom: .7em;
 }
 
@@ -178,11 +180,11 @@ ol {
 
 .blog-post h1 a {
     display: block;
-    font-size: 1em;
     font-weight: normal;
     font-family: 'Open Sans', sans-serif;
     font-size: 2rem;
     text-decoration: none;
+    padding-bottom: .3rem;
 }
 
 .blog-post a:hover {
@@ -280,12 +282,9 @@ p {
 }
 
 #icon_bar {
-    padding: 0;
-    margin: 0;
     max-height: 45px;
     flex-grow: 1;
     float: right;
-    margin: 2px;
     object-fit: cover;
 }
 
@@ -296,6 +295,7 @@ p {
 #icon_bar a img {
     width: 28px;
     height: 28px;
+    margin: 12px;
 }
 
 @media screen and (max-width: 60em) {

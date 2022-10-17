@@ -12,7 +12,7 @@ pagination:
     <img src="/images/feed_icon.svg" alt="Atom/RSS Feed">
   </a>
 </span>
-{% for post in collections.posts %}
+{% for post in collections.posts.reverse() %}
   <article class="blog-post">
     <time datetime="{{ post.date | dateIso }}">{{ post.date | dateInternational }}</time><br>
     <h1>
