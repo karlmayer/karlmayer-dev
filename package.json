@@ -6,7 +6,10 @@
   "devDependencies": {
     "@11ty/eleventy": "^1.0.1",
     "@11ty/eleventy-plugin-rss": "^1.2.0",
-    "moment": "^2.29.4",
-    "clean-css": "^5.3.1"
+    "clean-css": "^5.3.1",
+    "moment": "^2.29.4"
+  },
+  "dependencies": {
+    "@11ty/eleventy-img": "^2.0.1"
   }
 }

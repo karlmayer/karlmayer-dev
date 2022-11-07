@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Musing and thought on people, practices and innovation in IT">
-    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon.ico">
+    <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon.ico">
     <title>Karl Mayer - {{ title }}</title>
     <style>
       {{css | cssmin | safe}}
@@ -68,6 +68,10 @@
         .toLowerCase();
       if (!(href.includes("://localhost") || href.includes("karlmayer.dev") || href.includes("karlmayer.github.io"))) {
         a[i].setAttribute('target', '_blank');
+      } else {
+        a[i]
+          .classList
+          .add("external_link");
       }
     }
   </script>

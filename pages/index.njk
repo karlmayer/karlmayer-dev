@@ -9,7 +9,7 @@ pagination:
 
 <span id="icon_bar">
   <a href="/feed.json">
-    <img src="/images/feed_icon.svg" alt="Atom/RSS Feed">
+    <img src="/img/feed_icon.svg" alt="Atom/RSS Feed">
   </a>
 </span>
 {% for post in collections.posts.reverse() %}
@@ -20,7 +20,8 @@ pagination:
     </h1>
     <section>
       {% excerpt post %}
-      <a href="{{ post.url | url }}" aria-label="Read more on {{ post.data.title }}">Read more...</a>
+      <a href="{{ post.url | url }}" aria-label="Read more on {{ post.data.title }}" class="read_more">Read more...</a>
     </section>
+    <hr>
   </article>
 {% endfor %}

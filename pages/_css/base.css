@@ -7,7 +7,6 @@
     --accent-font: "DM Serif Display", serif;
 }
 
-/* Normalize CSS */
 html,
 body,
 div,
@@ -48,10 +47,6 @@ fieldset {
 *:before {
     box-sizing: border-box;
     flex: 1 0 auto;
-}
-
-hr {
-    display: none;
 }
 
 html,
@@ -179,7 +174,7 @@ ol {
 }
 
 .blog-post h1 a {
-    display: block;
+
     font-weight: normal;
     font-family: 'Open Sans', sans-serif;
     font-size: 2rem;
@@ -210,6 +205,12 @@ ol {
     font-size: 14px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+}
+
+.blog-post hr {
+    clear: both;
+    width: 100%;
+    display: inline-block;
 }
 
 #bottom {
@@ -298,9 +299,39 @@ p {
     margin: 12px;
 }
 
-@media screen and (max-width: 60em) {
+.picture {
+    max-height: 600px;
+    overflow: hidden;
+    justify-content: center;
+    float: right;
+    padding: 0 0 .5rem 2rem;
+}
+
+picture img {
+    max-width: 600px;
+    max-height: 600px;
+    object-position: 0 50%;
+    object-fit: scale-down;
+}
+
+@media screen and (max-width: 1024px) {
+    .picture {
+        max-height: 400px;
+    }
+
+    picture img {
+        max-width: 400px;
+        max-height: 600px;
+    }
+}
+
+@media screen and (max-width: 820px) {
     main {
         padding: 20px;
+    }
+
+    h1 {
+        font: 15rem;
     }
 
     #top nav ul {
@@ -330,5 +361,20 @@ p {
 
     .vcard .given-name {
         font-size: 1.8em;
+    }
+
+    .picture {
+        width: 100%;
+        max-height: 200px;
+        overflow: hidden;
+        float: none;
+        justify-content: center;
+    }
+
+    picture img {
+        width: 400px;
+        max-height: 200px;
+        object-position: 0 50%;
+        object-fit: scale-down;
     }
 }
