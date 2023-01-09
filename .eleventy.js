@@ -30,6 +30,14 @@ module.exports = function (eleventyConfig) {
         return moment(date).utc().format('YYYY-MM-DD');
     });
 
+    eleventyConfig.addFilter('replaceStrippedCharacters', function (title) {
+        return title
+            .replace('&', '&amp;')
+            .replace(/</g, '‹')
+            .replace(/>/g, '›');
+
+    })
+
     eleventyConfig.addShortcode('excerpt', article => extractExcerpt(article));
     eleventyConfig.addNunjucksAsyncShortcode("image", imageShortcode);
     eleventyConfig.addLiquidShortcode("image", imageShortcode);
