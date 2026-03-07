@@ -6,12 +6,19 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Musing and thought on people, practices and innovation in IT">
+    <meta name="description" content="Precision that misses the point. Writing on AI, clarity of thought, and the complexity of assumptions.">
     <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon.ico">
-    <title>Karl Mayer - {{ title }}</title>
+    <title>Overfit — {{ title }}</title>
     <style>
       {{css | cssmin | safe}}
     </style>
+    <script>
+      // Apply saved theme before paint to avoid flash
+      (function() {
+        var t = localStorage.getItem('theme');
+        if (t) document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-KLBXE58Z2K"></script>
     <script>
@@ -26,31 +33,31 @@
   </head>
   <body>
     <header id="top">
-      <link rel="profile" href="http://microformats.org/profile/hcard">
-      <article class="vcard">
-        <div>
-          <h1>Hello</h1>
-          <p>my name is</p>
-        </div>
-        <div class="fn">
-          <a href="/post/2022/10/06/hello-world/">
-            <p class="given-name">Karl Mayer</p>
-          </a>
-        </div>
-      </article>
+      <div class="wordmark">
+        <a href="/">
+          <span class="wordmark-title">Overfit</span>
+          <span class="wordmark-sub"><span class="wordmark-author">by Karl Mayer</span><span class="wordmark-sep"> · </span><span class="wordmark-tagline">Precision that misses the point.</span></span>
+        </a>
+      </div>
       <nav>
         <ul>
           <li>
-            <a href="/">Blog</a>
+            <a href="/">Writing</a>
           </li>
           <li>
-            <a href="/resume">Résumé</a>
+            <a href="/resume">About</a>
           </li>
           {# <li>
             <a href="/mindmap">Mindmap</a>
           </li> #}
           <li>
-            <a href="/library">Athenaeum</a>
+            <a href="/library">Library</a>
+          </li>
+          <li>
+            <button id="theme-toggle" aria-label="Toggle light/dark mode">
+              <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+              <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            </button>
           </li>
         </ul>
       </nav>
@@ -60,6 +67,21 @@
     </main>
   </body>
   <script>
+    (function() {
+      var btn = document.getElementById('theme-toggle');
+      function getEffectiveTheme() {
+        var saved = localStorage.getItem('theme');
+        if (saved) return saved;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+      }
+      btn.addEventListener('click', function() {
+        applyTheme(getEffectiveTheme() === 'dark' ? 'light' : 'dark');
+      });
+    })();
     // set target for external links to open in a separate tab
     var a = document.querySelectorAll('a');
     for (var i = 0; i < a.length; i++) {
