@@ -4,6 +4,7 @@ permalink: "post/{{ page.date | date: '%Y/%m/%d' }}/{{ title | slugify }}/index.
 ---
 
 <article class="blog-post">
+  <time datetime="{{ page.date | dateIso }}">{{ page.date | dateInternational }}</time>
   <h1>{{title}}</h1>
   {{ content | safe }}
 </article>
