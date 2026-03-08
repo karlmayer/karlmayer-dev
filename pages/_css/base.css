@@ -372,6 +372,17 @@ ol {
     margin-bottom: 0.75em;
 }
 
+.about-bio {
+    max-width: 760px;
+}
+
+.about-sep {
+    text-align: center;
+    color: var(--muted-color);
+    letter-spacing: 0.4em;
+    margin: 0.75em 0;
+}
+
 #icon-bar {
     margin-bottom: 0.5em;
 }

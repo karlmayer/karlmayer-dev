@@ -5,42 +5,37 @@ permalink: /about/
 
 ---
 
+<div class="about-bio">
+  <p>
+    I have a theory: the people most confident they understand the wave are
+    usually the ones who didn't see the reef. I write Overfit because precision
+    and accuracy aren't the same thing — in machine learning, in architecture,
+    or in life.
+  </p>
+  <p class="about-sep">· · ·</p>
+  <p>
+    Outside of work I spend my time losing at board games with good friends,
+    raising three sons who keep me honest, and married to a woman who has
+    watched me be confidently wrong enough times to deserve a medal.
+  </p>
+  <p class="about-sep">· · ·</p>
+  <p>The longer story:</p>
+  <br />
+</div>
+
 <style>
-body {
-  overflow: hidden;
-}
+{{ resume.styles | cssmin | safe }}
 
-main {
-  padding: 40px 0;
+#resume {
+  color: var(--text-color);
+  background-color: var(--background-color);
 }
-
-#resume_frame {
-  padding: 0;
-  border: 0;
-  width: 100%;
-  height: 98%;
+#resume a {
+  color: var(--accent-color);
 }
-
+#resume .section h2 {
+  color: var(--accent-color);
+}
 </style>
 
-<span id="icon-bar">
-  <a href="https://karlmayer.github.io/e-resume/resume.html" target="resume">
-    <img src="/img/html5_badge.svg" alt="Résumé as HTML">
-  </a>
-  <a href="https://karlmayer.github.io/e-resume/resume.pdf" target="resume">
-    <img src="/img/pdf_icon.svg" alt="Résumé as PDF">
-  </a>
-  <a
-    href="https://github.com/karlmayer/e-resume/blob/main/resume/resume.yaml"
-    target="resume"
-  >
-    <img src="/img/yaml_logo.svg" alt="Résumé as YAML">
-  </a>
-</span>
-<br>
-<iframe
-  src="https://karlmayer.github.io/e-resume/resume.html"
-  id="resume_frame"
-  name="resume"
-  title="Karl Mayer Résumé"
-></iframe>
+{{ resume.content | safe }}
