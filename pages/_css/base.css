@@ -366,7 +366,8 @@ ol {
     float: right;
     padding: 0 0 .5rem 2rem;
     overflow: hidden;
-    max-width: min(52vw, 680px);
+    width: 50%;
+    max-width: 50%;
 }
 
 .picture figcaption {
