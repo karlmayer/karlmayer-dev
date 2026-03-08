@@ -31,12 +31,23 @@ module.exports = async function (eleventyConfig) {
         return moment(date).utc().format('YYYY-MM-DD');
     });
 
+    eleventyConfig.addFilter('datePath', date => {
+        return moment(date).utc().format('YYYY/MM/DD');
+    });
+
     eleventyConfig.addFilter('replaceStrippedCharacters', function (title) {
         return title
             .replace('&', '&amp;')
             .replace(/</g, '‹')
             .replace(/>/g, '›');
     })
+
+    // Keep draft posts out of collections (index/feed/sitemap use this collection).
+    eleventyConfig.addCollection("posts", function (collectionApi) {
+        return collectionApi
+            .getFilteredByTag("posts")
+            .filter(post => !post.data.draft);
+    });
 
     eleventyConfig.addShortcode('excerpt', article => extractExcerpt(article));
     eleventyConfig.addAsyncShortcode("image", async function (src, alt, sizes = "100vw", caption = "") {

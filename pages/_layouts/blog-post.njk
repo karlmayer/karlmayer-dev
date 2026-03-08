@@ -1,7 +1,7 @@
 ---
 layout: base.njk
 ogType: "article"
-permalink: "post/{{ page.date | date: '%Y/%m/%d' }}/{{ title | slugify }}/index.html"
+permalink: "post/{{ page.date | datePath }}/{{ title | slugify }}/index.html"
 ---
 
 <article class="blog-post">
