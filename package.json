@@ -1,18 +1,25 @@
 {
   "scripts": {
     "dev": "eleventy --serve",
-    "build": "eleventy"
+    "build": "eleventy",
+    "lint": "eslint .eleventy.js && stylelint \"pages/_css/**/*.css\"",
+    "lint:fix": "eslint .eleventy.js --fix && stylelint \"pages/_css/**/*.css\" --fix"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
     "@11ty/eleventy-plugin-rss": "^2.0.4",
     "clean-css": "^5.3.3",
-    "moment": "^2.30.1"
+    "eslint": "^10.0.3",
+    "moment": "^2.30.1",
+    "stylelint": "^17.4.0",
+    "stylelint-config-standard": "^40.0.0"
   },
   "dependencies": {
     "@11ty/eleventy-img": "^6.0.4"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["sharp"]
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
   }
 }

@@ -39,15 +39,15 @@ module.exports = async function (eleventyConfig) {
 
     eleventyConfig.addShortcode('excerpt', article => extractExcerpt(article));
     eleventyConfig.addAsyncShortcode("image", async function (src, alt, sizes = "100vw", caption = "") {
-        let path = this.page.inputPath;
-        let dir = path.substring(0, path.lastIndexOf("/") + 1);
+        const path = this.page.inputPath;
+        const dir = path.substring(0, path.lastIndexOf("/") + 1);
         src = dir + src;
 
         if (alt === undefined) {
             throw new Error(`Missing \`alt\` on responsiveimage from: ${src}`);
         }
 
-        let metadata = await Image(src, {
+        const metadata = await Image(src, {
             widths: [320, null],
             formats: ["webp"],
             svgShortCircuit: true,
@@ -58,7 +58,7 @@ module.exports = async function (eleventyConfig) {
             }
         });
 
-        let lowsrc = metadata.webp[0];
+        const lowsrc = metadata.webp[0];
 
         return `<figure class="picture">
     <picture>

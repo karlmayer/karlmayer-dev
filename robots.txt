@@ -1,0 +1,8 @@
+# robots.txt for karlmayer-dev
+
+# Allow all user agents to access everything
+User-agent: *
+Disallow:
+
+# Sitemap location
+Sitemap: https://www.karlmayer.dev/sitemap.xml

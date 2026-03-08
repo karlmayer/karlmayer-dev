@@ -18,12 +18,12 @@ blockquote h1 {
 
 [class^="gr_custom_container_"],
 blockquote {
-    /* customize your Goodreads widget container here*/
+    /* customize your Goodreads widget container here */
     border: 1px solid gray;
     border-radius: 10px;
-    padding: 10px 5px 10px 5px;
-    background-color: #FFFFFF;
-    color: #000000;
+    padding: 10px 5px;
+    background-color: #FFF;
+    color: #000;
     width: 300px;
     margin: 10px;
     display: inline-block;
@@ -32,7 +32,7 @@ blockquote {
 
 [class^="gr_custom_header_"],
 blockquote>h1 {
-    /* customize your Goodreads header here*/
+    /* customize your Goodreads header here */
     border-bottom: 1px solid gray;
     width: 100%;
     margin-bottom: 5px;
