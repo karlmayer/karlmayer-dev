@@ -38,7 +38,7 @@ module.exports = async function (eleventyConfig) {
     })
 
     eleventyConfig.addShortcode('excerpt', article => extractExcerpt(article));
-    eleventyConfig.addAsyncShortcode("image", async function (src, alt, sizes = "100vw") {
+    eleventyConfig.addAsyncShortcode("image", async function (src, alt, sizes = "100vw", caption = "") {
         let path = this.page.inputPath;
         let dir = path.substring(0, path.lastIndexOf("/") + 1);
         src = dir + src;
@@ -60,7 +60,7 @@ module.exports = async function (eleventyConfig) {
 
         let lowsrc = metadata.webp[0];
 
-        return `<div class="picture">
+        return `<figure class="picture">
     <picture>
       ${Object.values(metadata).map(imageFormat => {
             return `  <source type="${imageFormat[0].sourceType}" srcset="${imageFormat.map(entry => entry.srcset).join(", ")}" sizes="${sizes}">`;
@@ -70,7 +70,9 @@ module.exports = async function (eleventyConfig) {
           alt="${alt}"
           loading="lazy"
           decoding="async">
-      </picture></div>`;
+      </picture>
+      ${caption ? `<figcaption>${caption.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')}</figcaption>` : ""}
+    </figure>`;
     });
 
     return {

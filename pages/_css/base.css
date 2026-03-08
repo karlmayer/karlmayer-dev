@@ -370,6 +370,13 @@ ol {
     overflow: hidden;
 }
 
+.picture figcaption {
+    font-size: 0.75rem;
+    color: var(--muted-color);
+    text-align: center;
+    padding-top: 0.3rem;
+}
+
 picture img {
     width: 360px;
     height: auto;
@@ -416,10 +423,14 @@ picture img {
 
     .picture {
         width: 100%;
-        max-height: 200px;
-        overflow: hidden;
         float: none;
         justify-content: center;
+    }
+
+    .picture picture {
+        display: block;
+        max-height: 200px;
+        overflow: hidden;
     }
 
     picture img {
