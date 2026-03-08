@@ -4,6 +4,9 @@ ogType: "article"
 permalink: "post/{{ page.date | datePath }}/{{ title | slugify }}/index.html"
 ---
 
+<div class="post-back">
+  <a href="/" class="nav-link">← All posts</a>
+</div>
 <article class="blog-post">
   <time datetime="{{ page.date | dateIso }}">{{ page.date | dateInternational }}</time>
   <h1>{{title}}</h1>

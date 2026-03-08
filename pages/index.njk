@@ -9,12 +9,21 @@ pagination:
 ---
 
 <span id="icon-bar">
-  <a href="/feed.xml">
-    <img src="/img/feed_icon.svg" alt="RSS/Atom Feed">
-  </a>
+  <div class="rss-wrap">
+    <button id="rss-btn" aria-label="Subscribe via RSS" aria-expanded="false">
+      <img src="/img/feed_icon.svg" alt="RSS/Atom Feed">
+    </button>
+    <div id="rss-popover" hidden>
+      <p>Paste this URL into your feed reader:</p>
+      <div class="rss-url-row">
+        <code>https://www.karlmayer.dev/feed.xml</code>
+        <button id="rss-copy">Copy</button>
+      </div>
+    </div>
+  </div>
 </span>
 {% for post in pagination.items %}
-  <article class="blog-post">
+  <article class="blog-post" data-post-url="{{ post.url | url }}">
     <time datetime="{{ post.date | dateIso }}">{{
       post.date | dateInternational
     }}</time><br>
@@ -22,13 +31,135 @@ pagination:
       <a href="{{ post.url | url }}">{{ post.data.title }}</a>
     </h1>
     <section>
-      {% excerpt post %}
-      <a
-        href="{{ post.url | url }}"
+      <div class="excerpt">{% excerpt post %}</div>
+      <button
         aria-label="Read more on {{ post.data.title }}"
+        aria-expanded="false"
         class="read_more"
-      >Read more...</a>
+      >Read more...</button>
     </section>
     <hr>
   </article>
 {% endfor %}
+
+<script>
+(function () {
+  var articles = document.querySelectorAll('article.blog-post[data-post-url]');
+  if (!articles.length) return;
+
+  history.replaceState({ home: true }, '', location.href);
+
+  function applyExternalLinks(root) {
+    root.querySelectorAll('a').forEach(function (a) {
+      var href = a.href.toLowerCase();
+      if (!(href.includes('://localhost') || href.includes('karlmayer.dev') || href.includes('karlmayer.github.io'))) {
+        a.setAttribute('target', '_blank');
+      }
+    });
+  }
+
+  function collapseArticle(article) {
+    var full = article.querySelector('.post-full');
+    var excerpt = article.querySelector('.excerpt');
+    var btn = article.querySelector('.read_more');
+    if (full) full.remove();
+    if (excerpt) excerpt.hidden = false;
+    if (btn) {
+      btn.hidden = false;
+      btn.disabled = false;
+      btn.textContent = 'Read more...';
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  async function expandArticle(article) {
+    var postUrl = article.dataset.postUrl;
+    var excerpt = article.querySelector('.excerpt');
+    var btn = article.querySelector('.read_more');
+    btn.textContent = 'Loading...';
+    btn.disabled = true;
+    try {
+      var res = await fetch(postUrl);
+      var html = await res.text();
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      var section = doc.querySelector('.blog-post section');
+      if (section) {
+        var full = document.createElement('div');
+        full.className = 'post-full';
+        full.innerHTML = section.innerHTML;
+        applyExternalLinks(full);
+        excerpt.after(full);
+        full.querySelectorAll('script').forEach(function (oldScript) {
+          var newScript = document.createElement('script');
+          Array.from(oldScript.attributes).forEach(function (attr) {
+            newScript.setAttribute(attr.name, attr.value);
+          });
+          newScript.textContent = oldScript.textContent;
+          oldScript.replaceWith(newScript);
+        });
+        excerpt.hidden = true;
+        btn.hidden = true;
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    } catch (e) {
+      btn.textContent = 'Read more...';
+      btn.disabled = false;
+    }
+  }
+
+  articles.forEach(function (article) {
+    var btn = article.querySelector('.read_more');
+    if (!btn) return;
+    btn.addEventListener('click', function () {
+      var postUrl = article.dataset.postUrl;
+      expandArticle(article);
+      history.pushState({ postUrl: postUrl }, '', postUrl);
+    });
+  });
+
+  window.addEventListener('popstate', function (e) {
+    if (!e.state || e.state.home) {
+      articles.forEach(collapseArticle);
+    } else if (e.state.postUrl) {
+      articles.forEach(collapseArticle);
+      var article = document.querySelector('article[data-post-url="' + e.state.postUrl + '"]');
+      if (article) expandArticle(article);
+    }
+  });
+})();
+
+(function () {
+  var btn = document.getElementById('rss-btn');
+  var popover = document.getElementById('rss-popover');
+  var copy = document.getElementById('rss-copy');
+
+  btn.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = !popover.hidden;
+    popover.hidden = open;
+    btn.setAttribute('aria-expanded', String(!open));
+  });
+
+  copy.addEventListener('click', function () {
+    navigator.clipboard.writeText('https://www.karlmayer.dev/feed.xml').then(function () {
+      copy.textContent = 'Copied!';
+      setTimeout(function () { copy.textContent = 'Copy'; }, 2000);
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    if (!popover.hidden && !popover.contains(e.target)) {
+      popover.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !popover.hidden) {
+      popover.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      btn.focus();
+    }
+  });
+})();
+</script>
