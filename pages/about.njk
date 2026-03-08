@@ -1,0 +1,46 @@
+---
+layout: base.njk
+title: About Me
+permalink: /about/
+
+---
+
+<style>
+body {
+  overflow: hidden;
+}
+
+main {
+  padding: 40px 0;
+}
+
+#resume_frame {
+  padding: 0;
+  border: 0;
+  width: 100%;
+  height: 98%;
+}
+
+</style>
+
+<span id="icon-bar">
+  <a href="https://karlmayer.github.io/e-resume/resume.html" target="resume">
+    <img src="/img/html5_badge.svg" alt="Résumé as HTML">
+  </a>
+  <a href="https://karlmayer.github.io/e-resume/resume.pdf" target="resume">
+    <img src="/img/pdf_icon.svg" alt="Résumé as PDF">
+  </a>
+  <a
+    href="https://github.com/karlmayer/e-resume/blob/main/resume/resume.yaml"
+    target="resume"
+  >
+    <img src="/img/yaml_logo.svg" alt="Résumé as YAML">
+  </a>
+</span>
+<br>
+<iframe
+  src="https://karlmayer.github.io/e-resume/resume.html"
+  id="resume_frame"
+  name="resume"
+  title="Karl Mayer Résumé"
+></iframe>

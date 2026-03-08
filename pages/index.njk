@@ -1,10 +1,11 @@
 ---
 layout: base.njk
-title: Blog
+title: Karl Mayer
 pagination:
   data: collections.posts
   size: 10
   reverse: true
+
 ---
 
 <span id="icon-bar">
@@ -14,13 +15,19 @@ pagination:
 </span>
 {% for post in pagination.items %}
   <article class="blog-post">
-    <time datetime="{{ post.date | dateIso }}">{{ post.date | dateInternational }}</time><br>
+    <time datetime="{{ post.date | dateIso }}">{{
+      post.date | dateInternational
+    }}</time><br>
     <h1>
       <a href="{{ post.url | url }}">{{ post.data.title }}</a>
     </h1>
     <section>
       {% excerpt post %}
-      <a href="{{ post.url | url }}" aria-label="Read more on {{ post.data.title }}" class="read_more">Read more...</a>
+      <a
+        href="{{ post.url | url }}"
+        aria-label="Read more on {{ post.data.title }}"
+        class="read_more"
+      >Read more...</a>
     </section>
     <hr>
   </article>

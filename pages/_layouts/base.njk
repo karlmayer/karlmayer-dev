@@ -14,10 +14,11 @@
     <link rel="alternate" type="application/rss+xml" title="Overfit" href="https://www.karlmayer.dev/feed.xml">
     <!-- Open Graph -->
     <meta property="og:site_name" content="Overfit">
-    <meta property="og:title" content="{{ title }}">
+    <meta property="og:title" content="{{ title or siteTitle }}">
     <meta property="og:description" content="{{ pageDescription }}">
     <meta property="og:url" content="{{ canonicalUrl }}">
     <meta property="og:type" content="{{ ogType or 'website' }}">
+    {% set siteOgImage = '/img/overfit-og.png' %}
     <meta property="og:image" content="https://www.karlmayer.dev{{ ogImage or siteOgImage }}">
     <meta name="twitter:image" content="https://www.karlmayer.dev{{ ogImage or siteOgImage }}">
     <!-- Twitter Card -->
@@ -29,7 +30,7 @@
     <meta name="twitter:image" content="https://www.karlmayer.dev{{ ogImage }}">
     {% endif %}
     <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon.ico">
-    <title>{{ title }} — Overfit</title>
+    <title>{{ title or siteTitle }} — Overfit</title>
     <style>
       {{css | cssmin | safe}}
     </style>
@@ -66,7 +67,7 @@
             <a href="/">Writing</a>
           </li>
           <li>
-            <a href="/resume">About</a>
+            <a href="/about">About</a>
           </li>
           {# <li>
             <a href="/mindmap">Mindmap</a>
