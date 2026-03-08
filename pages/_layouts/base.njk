@@ -18,6 +18,8 @@
     <meta property="og:description" content="{{ pageDescription }}">
     <meta property="og:url" content="{{ canonicalUrl }}">
     <meta property="og:type" content="{{ ogType or 'website' }}">
+    <meta property="og:image" content="https://www.karlmayer.dev{{ ogImage or siteOgImage }}">
+    <meta name="twitter:image" content="https://www.karlmayer.dev{{ ogImage or siteOgImage }}">
     <!-- Twitter Card -->
     <meta name="twitter:card" content="{{ 'summary_large_image' if ogImage else 'summary' }}">
     <meta name="twitter:title" content="{{ title }}">
