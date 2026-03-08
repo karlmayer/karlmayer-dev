@@ -1,5 +1,6 @@
 ---
 layout: base.njk
+ogType: "article"
 permalink: "post/{{ page.date | date: '%Y/%m/%d' }}/{{ title | slugify }}/index.html"
 ---
 
@@ -10,3 +11,21 @@ permalink: "post/{{ page.date | date: '%Y/%m/%d' }}/{{ title | slugify }}/index.
     {{ content | safe }}
   </section>
 </article>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ title | dump | safe }},
+  "datePublished": "{{ page.date | dateInternational }}",
+  "author": {
+    "@type": "Person",
+    "name": "Karl Mayer",
+    "url": "https://www.karlmayer.dev/resume/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Karl Mayer"
+  },
+  "url": "https://www.karlmayer.dev{{ page.url }}"
+}
+</script>

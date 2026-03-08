@@ -6,9 +6,28 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Precision that misses the point. Writing on AI, clarity of thought, and the complexity of assumptions.">
+    {% set siteDescription = "Precision that misses the point. Writing on AI, clarity of thought, and the complexity of assumptions." %}
+    {% set pageDescription = description or siteDescription %}
+    {% set canonicalUrl = "https://www.karlmayer.dev" + page.url %}
+    <meta name="description" content="{{ pageDescription }}">
+    <link rel="canonical" href="{{ canonicalUrl }}">
+    <link rel="alternate" type="application/rss+xml" title="Overfit" href="https://www.karlmayer.dev/feed.xml">
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Overfit">
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ pageDescription }}">
+    <meta property="og:url" content="{{ canonicalUrl }}">
+    <meta property="og:type" content="{{ ogType or 'website' }}">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="{{ 'summary_large_image' if ogImage else 'summary' }}">
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:description" content="{{ pageDescription }}">
+    {% if ogImage %}
+    <meta property="og:image" content="https://www.karlmayer.dev{{ ogImage }}">
+    <meta name="twitter:image" content="https://www.karlmayer.dev{{ ogImage }}">
+    {% endif %}
     <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon.ico">
-    <title>Overfit — {{ title }}</title>
+    <title>{{ title }} — Overfit</title>
     <style>
       {{css | cssmin | safe}}
     </style>

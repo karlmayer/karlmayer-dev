@@ -1,0 +1,33 @@
+---json
+{
+  "permalink": "sitemap.xml",
+  "eleventyExcludeFromCollections": true,
+  "siteUrl": "https://www.karlmayer.dev"
+}
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>{{ siteUrl }}/</loc>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>{{ siteUrl }}/resume/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>{{ siteUrl }}/library/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+{%- for post in collections.posts | reverse %}
+  <url>
+    <loc>{{ siteUrl }}{{ post.url }}</loc>
+    <lastmod>{{ post.date | dateInternational }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  {%- endfor %}
+</urlset>

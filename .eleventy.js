@@ -12,6 +12,7 @@ module.exports = async function (eleventyConfig) {
     eleventyConfig.addPlugin(EleventyRenderPlugin);
 
     eleventyConfig.addPassthroughCopy('img');
+    eleventyConfig.addPassthroughCopy({'pages/robots.txt': 'robots.txt'});
     eleventyConfig.addWatchTarget('pages/_css');
 
     eleventyConfig.addFilter("cssmin", function (code) {
