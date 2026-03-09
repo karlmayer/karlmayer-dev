@@ -3,7 +3,9 @@
     "dev": "eleventy --serve",
     "build": "eleventy",
     "lint": "eslint .eleventy.js && stylelint \"pages/_css/**/*.css\"",
-    "lint:fix": "eslint .eleventy.js --fix && stylelint \"pages/_css/**/*.css\" --fix"
+    "lint:fix": "eslint .eleventy.js --fix && stylelint \"pages/_css/**/*.css\" --fix",
+    "history:rewrite:blog": "bash scripts/rewrite-path-history.sh pages/blog --yes",
+    "history:rewrite:path": "bash scripts/rewrite-path-history.sh"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.2",
