@@ -314,6 +314,40 @@ ol {
     display: inline-block;
 }
 
+.blog-post blockquote {
+    position: relative;
+    border-left: 3px solid var(--muted-color);
+    background-color: color-mix(in srgb, var(--surface-color) 35%, var(--background-color));
+    border-radius: 0 4px 4px 0;
+    padding: 1em 2.5em 0.3em 1.1em;
+    margin: 1em 0;
+    color: color-mix(in srgb, var(--text-color) 60%, var(--muted-color));
+    font-style: italic;
+}
+
+.blockquote-copy {
+    position: absolute;
+    top: 0.45em;
+    right: 0.45em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--subtle-color);
+    padding: 0.2em;
+    line-height: 0;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+    flex: 0 0 auto;
+}
+
+.blog-post blockquote:hover .blockquote-copy {
+    opacity: 1;
+}
+
+.blockquote-copy:hover {
+    color: var(--text-color);
+}
+
 /* WORDMARK */
 
 .wordmark {
