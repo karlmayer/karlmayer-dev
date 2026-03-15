@@ -32,11 +32,12 @@ pagination:
     </h1>
     <section>
       <div class="excerpt">{% excerpt post %}</div>
-      <button
+      <a
+        href="{{ post.url | url }}"
         aria-label="Read more on {{ post.data.title }}"
         aria-expanded="false"
         class="read_more"
-      >Read more...</button>
+      >Read more...</a>
     </section>
     <hr>
   </article>
@@ -88,7 +89,7 @@ pagination:
     if (excerpt) excerpt.hidden = false;
     if (btn) {
       btn.hidden = false;
-      btn.disabled = false;
+      btn.style.pointerEvents = '';
       btn.textContent = 'Read more...';
       btn.setAttribute('aria-expanded', 'false');
     }
@@ -99,7 +100,7 @@ pagination:
     var excerpt = article.querySelector('.excerpt');
     var btn = article.querySelector('.read_more');
     btn.textContent = 'Loading...';
-    btn.disabled = true;
+    btn.style.pointerEvents = 'none';
     try {
       var res = await fetch(postUrl);
       var html = await res.text();
@@ -150,14 +151,15 @@ pagination:
       }
     } catch (e) {
       btn.textContent = 'Read more...';
-      btn.disabled = false;
+      btn.style.pointerEvents = '';
     }
   }
 
   articles.forEach(function (article) {
     var btn = article.querySelector('.read_more');
     if (!btn) return;
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
       var postUrl = article.dataset.postUrl;
       expandArticle(article);
       history.pushState({ postUrl: postUrl }, '', postUrl);
