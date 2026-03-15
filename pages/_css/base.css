@@ -306,17 +306,68 @@ ol {
     font-size: 14px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+    color: var(--accent-color);
+}
+
+.blog-post .footnotes {
+    margin-top: 2em;
+    padding-top: 1em;
+    font-size: 0.8em;
+    color: var(--muted-color);
+}
+
+.blog-post .footnotes ol {
+    margin-left: 1.5em;
+}
+
+.blog-post .footnotes li {
+    margin-bottom: 0.35em;
+}
+
+.blog-post .footnotes a {
+    color: var(--muted-color);
+}
+
+.blog-post sup a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-size: 0.75em;
+    vertical-align: super;
 }
 
 .blog-post hr {
     clear: both;
     width: 100%;
     display: inline-block;
+    margin-top: 0.5em;
+    margin-bottom: 1.5em;
+    border: none;
+    border-top: 1px solid var(--surface-color);
+}
+
+.blog-post h2 {
+    position: relative;
+}
+
+.blog-post h2 .header-anchor {
+    position: absolute;
+    right: 100%;
+    padding-right: 0.35em;
+    text-decoration: none;
+    color: var(--muted-color);
+    opacity: 0;
+    transition: opacity 0.15s;
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
+.blog-post h2:hover .header-anchor {
+    opacity: 1;
 }
 
 .blog-post blockquote {
     position: relative;
-    border-left: 3px solid var(--muted-color);
+    border-left: 3px solid var(--accent-color);
     background-color: color-mix(in srgb, var(--surface-color) 35%, var(--background-color));
     border-radius: 0 4px 4px 0;
     padding: 1em 2.5em 0.3em 1.1em;

@@ -7,6 +7,20 @@ module.exports = async function (eleventyConfig) {
     const { EleventyRenderPlugin } = await import("@11ty/eleventy");
     const PluginRss = await import("@11ty/eleventy-plugin-rss");
     const Image = (await import("@11ty/eleventy-img")).default;
+    const markdownIt = (await import("markdown-it")).default;
+    const markdownItAnchor = (await import("markdown-it-anchor")).default;
+    const markdownItFootnote = (await import("markdown-it-footnote")).default;
+
+    const md = markdownIt({ html: true }).use(markdownItFootnote).use(markdownItAnchor, {
+        level: 2,
+        permalink: markdownItAnchor.permalink.linkInsideHeader({
+            symbol: '#',
+            placement: 'after',
+        }),
+    });
+    md.renderer.rules.footnote_block_open = () =>
+        '<section class="footnotes">\n<ol class="footnotes-list">\n';
+    eleventyConfig.setLibrary("md", md);
 
     eleventyConfig.addPlugin(PluginRss.default);
     eleventyConfig.addPlugin(EleventyRenderPlugin);
