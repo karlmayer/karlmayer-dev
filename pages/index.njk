@@ -108,7 +108,21 @@ pagination:
       if (section) {
         var full = document.createElement('div');
         full.className = 'post-full';
-        full.innerHTML = section.innerHTML;
+        var endMarker = null;
+        section.childNodes.forEach(function (node) {
+          if (node.nodeType === 8 && node.nodeValue.trim() === 'Excerpt End') {
+            endMarker = node;
+          }
+        });
+        if (endMarker) {
+          var node = endMarker.nextSibling;
+          while (node) {
+            full.appendChild(node.cloneNode(true));
+            node = node.nextSibling;
+          }
+        } else {
+          full.innerHTML = section.innerHTML;
+        }
         applyExternalLinks(full);
         applyBlockquoteCopy(full);
         full.style.overflow = 'hidden';
@@ -122,7 +136,6 @@ pagination:
           newScript.textContent = oldScript.textContent;
           oldScript.replaceWith(newScript);
         });
-        excerpt.hidden = true;
         btn.hidden = true;
         btn.setAttribute('aria-expanded', 'true');
         requestAnimationFrame(function () {
