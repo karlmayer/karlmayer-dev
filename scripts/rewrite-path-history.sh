@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 usage() {
   cat <<'EOF'
@@ -24,7 +23,7 @@ EOF
 
 if [[ "${1:-}" == "-h" || "${1:-}" == "--help" || $# -lt 1 ]]; then
   usage
-  exit 0
+  return 0
 fi
 
 TARGET_PATH="$1"
@@ -33,12 +32,12 @@ CONFIRM_FLAG="${2:-}"
 if [[ "$CONFIRM_FLAG" != "--yes" ]]; then
   echo "This rewrites git history for '$TARGET_PATH'."
   echo "Re-run with --yes to continue."
-  exit 1
+  return 1
 fi
 
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   echo "Error: not inside a git repository."
-  exit 1
+  return 1
 fi
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
@@ -46,12 +45,12 @@ cd "$REPO_ROOT"
 
 if [[ ! -e "$TARGET_PATH" ]]; then
   echo "Error: path '$TARGET_PATH' does not exist in working tree."
-  exit 1
+  return 1
 fi
 
 if [[ -n "$(git status --porcelain)" ]]; then
   echo "Error: working tree is not clean. Commit or stash changes first."
-  exit 1
+  return 1
 fi
 
 BACKUP_DIR="$(mktemp -d)"
