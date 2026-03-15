@@ -111,6 +111,8 @@ pagination:
         full.innerHTML = section.innerHTML;
         applyExternalLinks(full);
         applyBlockquoteCopy(full);
+        full.style.overflow = 'hidden';
+        full.style.maxHeight = '0';
         excerpt.after(full);
         full.querySelectorAll('script').forEach(function (oldScript) {
           var newScript = document.createElement('script');
@@ -123,6 +125,15 @@ pagination:
         excerpt.hidden = true;
         btn.hidden = true;
         btn.setAttribute('aria-expanded', 'true');
+        requestAnimationFrame(function () {
+          full.style.transition = 'max-height 0.9s ease';
+          full.style.maxHeight = full.scrollHeight + 'px';
+          full.addEventListener('transitionend', function () {
+            full.style.maxHeight = '';
+            full.style.overflow = '';
+            full.style.transition = '';
+          }, { once: true });
+        });
       }
     } catch (e) {
       btn.textContent = 'Read more...';
