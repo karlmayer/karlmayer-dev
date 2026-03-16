@@ -4,7 +4,6 @@ date: 2022-10-07
 tags: ['posts']
 layout: blog-post
 description: "Thinking in public about clarity of thought, the complexity of abstraction, and what software even is when reasoning replaces specification."
-ogImageSrc: hello-world.webp
 ---
 
 <!-- Excerpt Start -->

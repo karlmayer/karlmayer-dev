@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "test": "jest",
     "dev": "eleventy --serve",
     "build": "eleventy",
     "lint": "eslint .eleventy.js && stylelint \"pages/_css/**/*.css\"",
@@ -12,6 +13,7 @@
     "@11ty/eleventy-plugin-rss": "^2.0.4",
     "clean-css": "^5.3.3",
     "eslint": "^10.0.3",
+    "jest": "^30.3.0",
     "markdown-it": "^14.1.1",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-footnote": "^4.0.0",

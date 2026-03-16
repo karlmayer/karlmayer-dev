@@ -6,7 +6,6 @@ layout: blog-post
 description:
   "For 70 years, computers — first human, then machine — had one job: execute exactly what they were
   told. Reasoning models just changed that job description for the first time."
-ogImageSrc: langley-computer-friden-1952.jpg
 ---
 
 <!-- Excerpt Start -->

@@ -4,7 +4,6 @@ date: 2026-03-17
 tags: ["posts"]
 layout: blog-post
 description: "AI didn't just democratize expertise. It democratized the appearance of building."
-ogImageSrc: foggy-grand-canyon.avif
 draft: true
 ---
 

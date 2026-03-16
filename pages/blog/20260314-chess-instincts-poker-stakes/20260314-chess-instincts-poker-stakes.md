@@ -4,7 +4,6 @@ date: 2026-03-14
 tags: ['posts']
 layout: blog-post
 description: "AI agents have chess instincts. The world they're deployed into plays like a poker table."
-ogImageSrc: knight-and-cards.png
 ---
 
 <!-- Excerpt Start -->
