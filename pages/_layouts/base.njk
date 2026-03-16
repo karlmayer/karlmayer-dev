@@ -54,6 +54,14 @@
     <!-- -->
   </head>
   <body>
+    <div id="sticky-nav" aria-hidden="true">
+      <div id="sticky-nav-inner">
+        <a href="/" id="sticky-wordmark">Overfit <span>by Karl Mayer</span></a>
+        <a href="/">Writing</a>
+        <a href="/about">About</a>
+        <a href="/library">Library</a>
+      </div>
+    </div>
     <header id="top">
       <div class="wordmark">
         <a href="/">
@@ -104,6 +112,13 @@
         applyTheme(getEffectiveTheme() === 'dark' ? 'light' : 'dark');
       });
     })();
+    // Sticky nav
+    new IntersectionObserver(function(entries) {
+      var nav = document.getElementById('sticky-nav');
+      var visible = !entries[0].isIntersecting;
+      nav.classList.toggle('visible', visible);
+      nav.setAttribute('aria-hidden', String(!visible));
+    }).observe(document.getElementById('top'));
     // Copy button for blockquotes
     document.querySelectorAll('.blog-post blockquote').forEach(function(bq) {
       var btn = document.createElement('button');
