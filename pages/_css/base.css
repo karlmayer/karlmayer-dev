@@ -299,7 +299,7 @@ ol {
 
 .blog-post h2 {
     box-sizing: border-box;
-    margin: 0 0 16px;
+    margin: 3rem 0 16px;
     min-width: 0;
     font-weight: 700;
     line-height: 1.4;
@@ -403,6 +403,36 @@ ol {
 
 .wordmark {
     margin: 8px 0 0 4px;
+    position: relative;
+}
+
+.wordmark::before {
+    content: '';
+    position: absolute;
+    top: calc(50% - 3rem);
+    left: 7rem;
+    height: 120%;
+    width: 140%;
+    background-image: url('/img/overfit-light.png');
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    background-position: left top;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .wordmark::before {
+        background-image: url('/img/overfit-dark.png');
+    }
+}
+
+:root[data-theme="dark"] .wordmark::before {
+    background-image: url('/img/overfit-dark.png');
+}
+
+:root[data-theme="light"] .wordmark::before {
+    background-image: url('/img/overfit-light.png');
 }
 
 .wordmark a {
