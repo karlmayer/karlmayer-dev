@@ -1,7 +1,7 @@
 ---
 title: The Last Generation of Explicit Logic
 date: 2026-03-01
-tags: ["posts"]
+tags: ["posts", "ai", "software"]
 layout: blog-post
 description:
   "For 70 years, computers — first human, then machine — had one job: execute exactly what they were

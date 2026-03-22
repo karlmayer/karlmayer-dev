@@ -1,7 +1,7 @@
 ---
 title: Chess Instincts. Poker Stakes.
 date: 2026-03-14
-tags: ['posts']
+tags: ["posts", "ai", "agents"]
 layout: blog-post
 description: "AI agents have chess instincts. The world they're deployed into plays like a poker table."
 ---
@@ -30,8 +30,6 @@ What you want is a Scrabble player — someone who arrived with a plan, reads th
 
 So why don't agents work that way already?
 
----
-
 ## Why Agents Default to the Chessboard
 
 When an AI agent works through a task, it generates text one token at a time — each word shaped by everything that came before it. Once it has written out a plan, that plan sits in its working memory, pulling every subsequent step toward consistency with it. The further it goes, the harder it becomes to deviate. A committed plan becomes self-reinforcing.
@@ -41,8 +39,6 @@ One contributing factor is the training data itself. These models learned from a
 The result is what I'd call **completion bias**: a strong, baked-in instinct to execute the plan within a single context window. Not because the agent is stubborn, but because forward progress is what it learned to do.
 
 For now, the grandmaster is where every agent begins.
-
----
 
 ## What Goes Wrong
 
@@ -55,8 +51,6 @@ That's the failure mode in its clearest form: not a crash, not silence, but a pl
 The pattern generalizes to three specific ways completion bias surfaces in longer tasks. **Plan fixation**: a step produces a result that makes a later step unnecessary, but the agent runs it anyway. **Error propagation**: a tool returns quietly wrong data, which flows into every downstream step as valid input. **Missed shortcuts**: the agent reaches the answer at step two and executes four more steps because that was the plan.
 
 None of these require a catastrophic failure to cause damage. A three-step task without reassessment is probably fine; a fifteen-step task is a compounding error machine.
-
----
 
 ## Teaching Your Agent to Read the Table
 

@@ -1,7 +1,7 @@
 ---
 title: Can You Read It?
 date: 2026-03-08
-tags: ["posts"]
+tags: ["posts", "ai", "writing"]
 layout: blog-post
 description:
   "AI is writing faster than ever. The question is whether anyone can keep up with the reading."
