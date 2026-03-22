@@ -8,7 +8,7 @@ layout: blog-post
 
 <!-- Excerpt Start -->
 
-{% image "grand-canyon-simulated-lidar.png", "Grand Canyon rendered as a lidar point cloud, canyon walls and floor emerging from fog.", "(max-width: 600px) 100vw, 600px", "Simulated lidar scan of the Grand Canyon. [Waymo uses this to drive through fog.](https://www.youtube.com/watch?v=B8TGFA6SfAo)" %}
+{% image "grand-canyon-simulated-lidar.png", "Grand Canyon rendered as a lidar point cloud, canyon walls and floor emerging from fog.", "(max-width: 600px) 100vw, 600px", "AI-simulated lidar scan of the Grand Canyon. [Waymo uses real lidar to drive through fog.](https://www.youtube.com/watch?v=B8TGFA6SfAo)" %}
 
 The demo works. It will keep working, right up until it doesn't. The rest is fog. Somewhere in it: a
 speed bump, or a cliff. You don't know which until someone drives off it.
