@@ -10,16 +10,19 @@ layout: blog-post
 
 {% image "grand-canyon-simulated-lidar.png", "Grand Canyon rendered as a lidar point cloud, canyon walls and floor emerging from fog.", "(max-width: 600px) 100vw, 600px", "AI-simulated lidar scan of the Grand Canyon. [Waymo uses real lidar to drive through fog.](https://www.youtube.com/watch?v=B8TGFA6SfAo)" %}
 
-The demo works. It will keep working, right up until it doesn't. The rest is fog. Somewhere in it: a
-speed bump, or a cliff. You don't know which until someone drives off it.
+The demo works. It will keep working, right up until it doesn't. The rest is fog.
+
+Somewhere in it: a speed bump, or a cliff. You don't know which until someone drives off it.
 
 A self-driving car uses lidar to see the road in fog — it emits its own pulse, reads the return
 signal, and builds a picture of what's ahead. These ten questions work the same way. Paste them in
-after the demo works, before you ship.
+to your AI after the demo works, before you ship.
 
 <!-- Excerpt End -->
 
-In [The Demo Is Not the Product](/post/2026/03/20/the-demo-is-not-the-product), I argued that AI makes it easy to look like you're building without building anything real. Demos won't surface these on their own.
+In [The Demo Is Not the Product](/post/2026/03/20/the-demo-is-not-the-product), I argued that AI
+makes it easy to look like you're building without building anything real. Demos won't surface these
+on their own.
 
 ---
 
@@ -98,11 +101,11 @@ to go deeper, swap "minimal effort" for "real intent" and see what changes.
 
 > What would 100 simultaneous users expose?
 
-Ask the AI to reason about scale. Recently, I saw it flag serverless instance holds its own database
-connection pool, so concurrent users across concurrent instances exhaust the connection limit fast,
-not gradually. It also catches unauthenticated file endpoints: fine in development, free storage for
-anyone at scale. This question doesn't require load testing. It requires the AI to think about the
-thing it built as a system with real load on it, which it will do competently if you ask.
+Ask the AI to reason about scale. With this prompt, I uncovered a subtle issue: each serverless
+instance was holding its own database connection pool — meaning concurrent users could exhaust the
+connection limit quickly. It also flagged unauthenticated file upload endpoints: harmless in
+development, but an open invitation for abuse at scale. You don't need a load test to see these
+problems coming.
 
 ## 9. Real Cost
 
@@ -118,9 +121,9 @@ would not have liked to find that out the hard way.
 > What would I avoid showing a skeptical technical user?
 
 Every other question is technical. This one saves you from yourself. When I ran this on a recent
-app, it came back fast: mock data everywhere, no real persistence, no backend. Anyone could "be" any
-user. An important upload flow was UI-only. None of that is wrong for the stage it was at — but the
-question forced me to say it out loud before someone else found it.
+"vibed demo," it came back fast: mock data everywhere, no real persistence, no backend. Anyone could
+"be" any user. An important upload flow was UI-only. None of that is wrong for the stage it was at,
+but knowing it changes how you present it.
 
 ---
 
