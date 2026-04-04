@@ -217,8 +217,8 @@ ol {
 #top nav a:focus,
 #top nav a:hover {
     background: var(--surface-color);
-    border-color: var(--surface-color);
-    color: var(--text-color);
+    border-color: color-mix(in srgb, var(--accent-color) 45%, var(--surface-color));
+    color: var(--accent-color);
 }
 
 #top nav a.current {
@@ -555,6 +555,53 @@ ol {
     margin-bottom: 0.75em;
 }
 
+.post-nav {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.post-nav-link,
+.post-nav-spacer {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.post-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    text-transform: uppercase;
+    font-family: var(--common-font);
+    font-size: 11pt;
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: normal;
+    color: var(--muted-color);
+}
+
+.blog-post .post-nav-link {
+    color: var(--muted-color);
+}
+
+.post-nav-link span {
+    color: inherit;
+    font-size: inherit;
+    font-weight: 400;
+}
+
+.post-nav-link strong {
+    font-family: var(--accent-font);
+    color: inherit;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: none;
+}
+
+.post-nav-link-next {
+    text-align: right;
+}
+
 .about-bio {
     max-width: 760px;
 }
@@ -759,6 +806,18 @@ picture img {
 }
 
 @media screen and (width <= 820px) {
+    .post-nav {
+        flex-direction: column;
+    }
+
+    .post-nav-spacer {
+        display: none;
+    }
+
+    .post-nav-link-next {
+        text-align: left;
+    }
+
     .post-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }

@@ -13,6 +13,27 @@ permalink: "post/{{ page.date | datePath }}/{{ title | slugify }}/index.html"
   <section>
     {{ content | safe }}
   </section>
+  {% if postNav and (postNav.newer or postNav.older) %}
+    <nav class="post-nav" aria-label="Post navigation">
+      {% if postNav.newer %}
+        <a href="{{ postNav.newer.url | url }}" class="nav-link post-nav-link post-nav-link-prev" aria-label="Read newer post: {{ postNav.newer.data.title }}">
+          <span>← Newer</span>
+          <strong>{{ postNav.newer.data.title }}</strong>
+        </a>
+      {% else %}
+        <span class="post-nav-spacer" aria-hidden="true"></span>
+      {% endif %}
+
+      {% if postNav.older %}
+        <a href="{{ postNav.older.url | url }}" class="nav-link post-nav-link post-nav-link-next" aria-label="Read older post: {{ postNav.older.data.title }}">
+          <span>Older →</span>
+          <strong>{{ postNav.older.data.title }}</strong>
+        </a>
+      {% else %}
+        <span class="post-nav-spacer" aria-hidden="true"></span>
+      {% endif %}
+    </nav>
+  {% endif %}
 </article>
 <script type="application/ld+json">
 {
