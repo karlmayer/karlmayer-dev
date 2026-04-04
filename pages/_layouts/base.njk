@@ -1,17 +1,25 @@
 {% set css %}
-{% include "../_css/base.css" %}
+  {% include "../_css/base.css" %}
 {% endset %}
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% set siteDescription = "Precision that misses the point. Writing on AI, clarity of thought, and the complexity of assumptions." %}
+    {%
+      set siteDescription = "Precision that misses the point. Writing on AI, clarity of thought, and the complexity of assumptions."
+    %}
     {% set pageDescription = description or siteDescription %}
     {% set canonicalUrl = "https://www.karlmayer.dev" + page.url %}
     <meta name="description" content="{{ pageDescription }}">
+    <meta name="author" content="Karl Mayer">
     <link rel="canonical" href="{{ canonicalUrl }}">
-    <link rel="alternate" type="application/rss+xml" title="Overfit" href="https://www.karlmayer.dev/feed.xml">
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Overfit"
+      href="https://www.karlmayer.dev/feed.xml"
+    >
     <!-- Open Graph -->
     <meta property="og:site_name" content="Overfit">
     <meta property="og:title" content="{{ title or siteTitle }}">
@@ -19,37 +27,56 @@
     <meta property="og:url" content="{{ canonicalUrl }}">
     <meta property="og:type" content="{{ ogType or 'website' }}">
     {% set siteOgImage = '/img/overfit-og.png' %}
-    <meta property="og:image" content="https://www.karlmayer.dev{{ ogImage or siteOgImage }}">
-    <meta name="twitter:image" content="https://www.karlmayer.dev{{ ogImage or siteOgImage }}">
+    <meta
+      property="og:image"
+      content="https://www.karlmayer.dev{{ ogImage or siteOgImage }}"
+    >
+    <meta
+      name="twitter:image"
+      content="https://www.karlmayer.dev{{ ogImage or siteOgImage }}"
+    >
     <!-- Twitter Card -->
-    <meta name="twitter:card" content="{{ 'summary_large_image' if ogImage else 'summary' }}">
+    <meta
+      name="twitter:card"
+      content="{{ 'summary_large_image' if ogImage else 'summary' }}"
+    >
     <meta name="twitter:title" content="{{ title }}">
     <meta name="twitter:description" content="{{ pageDescription }}">
     {% if ogImage %}
-    <meta property="og:image" content="https://www.karlmayer.dev{{ ogImage }}">
-    <meta name="twitter:image" content="https://www.karlmayer.dev{{ ogImage }}">
+      <meta
+        property="og:image"
+        content="https://www.karlmayer.dev{{ ogImage }}"
+      >
+      <meta
+        name="twitter:image"
+        content="https://www.karlmayer.dev{{ ogImage }}"
+      >
     {% endif %}
     <link rel="icon" type="image/png" sizes="96x96" href="/img/favicon.ico">
     <title>{{ title or siteTitle }} — Overfit</title>
     <style>
-      {{css | cssmin | safe}}
+    {{ css | cssmin | safe }}
     </style>
     <script>
-      // Apply saved theme before paint to avoid flash
-      (function() {
-        var t = localStorage.getItem('theme');
-        if (t) document.documentElement.setAttribute('data-theme', t);
-      })();
+    // Apply saved theme before paint to avoid flash
+(function() {
+  var t = localStorage.getItem("theme");
+  if (t) document.documentElement.setAttribute("data-theme", t);
+})();
     </script>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KLBXE58Z2K"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-KLBXE58Z2K"
+    >
+    </script>
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag('js', new Date());
-      gtag('config', 'G-KLBXE58Z2K');
+    window.dataLayer = window.dataLayer || [];
+function gtag() {
+  dataLayer.push(arguments);
+}
+gtag("js", new Date());
+gtag("config", "G-KLBXE58Z2K");
     </script>
     <!-- -->
   </head>
@@ -66,7 +93,10 @@
       <div class="wordmark">
         <a href="/">
           <span class="wordmark-title">Overfit</span>
-          <span class="wordmark-sub"><span class="wordmark-author">by Karl Mayer</span><span class="wordmark-sep"> · </span><span class="wordmark-tagline">Precision that misses the point.</span></span>
+          <span class="wordmark-sub"><span class="wordmark-author"
+            >by Karl Mayer</span><span class="wordmark-sep"> · </span><span
+              class="wordmark-tagline"
+            >Precision that misses the point.</span></span>
         </a>
       </div>
       <nav>
@@ -85,8 +115,42 @@
           </li>
           <li>
             <button id="theme-toggle" aria-label="Toggle light/dark mode">
-              <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-              <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+              <svg
+                class="icon-moon"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+              </svg>
+              <svg
+                class="icon-sun"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="5" />
+                <line x1="12" y1="1" x2="12" y2="3" />
+                <line x1="12" y1="21" x2="12" y2="23" />
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                <line x1="1" y1="12" x2="3" y2="12" />
+                <line x1="21" y1="12" x2="23" y2="12" />
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+              </svg>
             </button>
           </li>
         </ul>
@@ -97,64 +161,73 @@
     </main>
   </body>
   <script>
-    (function() {
-      var btn = document.getElementById('theme-toggle');
-      function getEffectiveTheme() {
-        var saved = localStorage.getItem('theme');
-        if (saved) return saved;
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-      function applyTheme(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem('theme', theme);
-      }
-      btn.addEventListener('click', function() {
-        applyTheme(getEffectiveTheme() === 'dark' ? 'light' : 'dark');
-      });
-    })();
-    // Sticky nav
-    new IntersectionObserver(function(entries) {
-      var nav = document.getElementById('sticky-nav');
-      var visible = !entries[0].isIntersecting;
-      nav.classList.toggle('visible', visible);
-      nav.setAttribute('aria-hidden', String(!visible));
-    }).observe(document.getElementById('top'));
-    // Copy button for blockquotes
-    document.querySelectorAll('.blog-post blockquote').forEach(function(bq) {
-      var btn = document.createElement('button');
-      btn.className = 'blockquote-copy';
-      btn.setAttribute('aria-label', 'Copy quote');
-      var iconCopy = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
-      var iconCheck = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-      btn.innerHTML = iconCopy;
-      function doCopy() {
-        var text = bq.innerText.replace(/\n+/g, ' ').trim();
-        navigator.clipboard.writeText(text).then(function() {
-          btn.innerHTML = iconCheck;
-          setTimeout(function() { btn.innerHTML = iconCopy; }, 1500);
-        });
-      }
-      btn.addEventListener('click', function(e) {
-        e.stopPropagation();
-        doCopy();
-      });
-      bq.addEventListener('click', doCopy);
-      bq.style.cursor = 'pointer';
-      bq.appendChild(btn);
+  (function() {
+  var btn = document.getElementById("theme-toggle");
+  function getEffectiveTheme() {
+    var saved = localStorage.getItem("theme");
+    if (saved) return saved;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+  function applyTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }
+  btn.addEventListener("click", function() {
+    applyTheme(getEffectiveTheme() === "dark" ? "light" : "dark");
+  });
+})();
+// Sticky nav
+new IntersectionObserver(function(entries) {
+  var nav = document.getElementById("sticky-nav");
+  var visible = !entries[0].isIntersecting;
+  nav.classList.toggle("visible", visible);
+  nav.setAttribute("aria-hidden", String(!visible));
+}).observe(document.getElementById("top"));
+// Copy button for blockquotes
+document.querySelectorAll(".blog-post blockquote").forEach(function(bq) {
+  var btn = document.createElement("button");
+  btn.className = "blockquote-copy";
+  btn.setAttribute("aria-label", "Copy quote");
+  var iconCopy =
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"9\" y=\"9\" width=\"13\" height=\"13\" rx=\"2\" ry=\"2\"/><path d=\"M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1\"/></svg>";
+  var iconCheck =
+    "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg>";
+  btn.innerHTML = iconCopy;
+  function doCopy() {
+    var text = bq.innerText.replace(/\n+/g, " ").trim();
+    navigator.clipboard.writeText(text).then(function() {
+      btn.innerHTML = iconCheck;
+      setTimeout(function() {
+        btn.innerHTML = iconCopy;
+      }, 1500);
     });
-    // set target for external links to open in a separate tab
-    var a = document.querySelectorAll('a');
-    for (var i = 0; i < a.length; i++) {
-      var href = a[i]
-        .href
-        .toLowerCase();
-      if (!(href.includes("://localhost") || href.includes("karlmayer.dev") || href.includes("karlmayer.github.io"))) {
-        a[i].setAttribute('target', '_blank');
-      } else {
-        a[i]
-          .classList
-          .add("external_link");
-      }
-    }
+  }
+  btn.addEventListener("click", function(e) {
+    e.stopPropagation();
+    doCopy();
+  });
+  bq.addEventListener("click", doCopy);
+  bq.style.cursor = "pointer";
+  bq.appendChild(btn);
+});
+// set target for external links to open in a separate tab
+var a = document.querySelectorAll("a");
+for (var i = 0; i < a.length; i++) {
+  var href = a[i]
+    .href
+    .toLowerCase();
+  if (
+    !(href.includes("://localhost") || href.includes("karlmayer.dev")
+      || href.includes("karlmayer.github.io"))
+  ) {
+    a[i].setAttribute("target", "_blank");
+  } else {
+    a[i]
+      .classList
+      .add("external_link");
+  }
+}
   </script>
 </html>
