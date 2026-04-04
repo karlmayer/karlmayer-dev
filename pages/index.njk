@@ -22,158 +22,70 @@ pagination:
     </div>
   </div>
 </span>
+<div class="post-grid">
 {% for post in pagination.items %}
-  <article class="blog-post" data-post-url="{{ post.url | url }}">
-    <time datetime="{{ post.date | dateIso }}">{{
-      post.date | dateInternational
-    }}</time><br>
-    <h1>
-      <a href="{{ post.url | url }}">{{ post.data.title }}</a>
-    </h1>
-    <section>
-      <div class="excerpt">{% excerpt post %}</div>
+  <article class="blog-post post-card" data-post-url="{{ post.url | url }}">
+    <a class="post-card-media" href="{{ post.url | url }}" aria-label="Open {{ post.data.title }}">
+      <img src="{{ post.data.ogImage }}" alt="Preview image for {{ post.data.title }}" loading="lazy" decoding="async">
+    </a>
+    <header class="post-card-head">
+      <time datetime="{{ post.date | dateIso }}">{{
+        post.date | dateInternational
+      }}</time>
+      <h1 class="post-card-title">
+        <a href="{{ post.url | url }}">{{ post.data.title }}</a>
+      </h1>
+    </header>
+    <section class="post-card-body">
+      <div class="excerpt">
+        {% if post.data.excerpt %}
+          {{ post.data.excerpt }}
+        {% else %}
+          {% excerpt post %}
+        {% endif %}
+      </div>
       <a
         href="{{ post.url | url }}"
         aria-label="Read more on {{ post.data.title }}"
         aria-expanded="false"
-        class="read_more"
+        class="read_more post-card-link"
       >Read more...</a>
     </section>
-    <hr>
   </article>
 {% endfor %}
+</div>
 
 <script>
 (function () {
   var articles = document.querySelectorAll('article.blog-post[data-post-url]');
   if (!articles.length) return;
 
-  history.replaceState({ home: true }, '', location.href);
-
-  function applyBlockquoteCopy(root) {
-    var iconCopy = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
-    var iconCheck = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
-    root.querySelectorAll('blockquote').forEach(function (bq) {
-      var btn = document.createElement('button');
-      btn.className = 'blockquote-copy';
-      btn.setAttribute('aria-label', 'Copy quote');
-      btn.innerHTML = iconCopy;
-      function doCopy() {
-        var text = bq.innerText.replace(/\n+/g, ' ').trim();
-        navigator.clipboard.writeText(text).then(function () {
-          btn.innerHTML = iconCheck;
-          setTimeout(function () { btn.innerHTML = iconCopy; }, 1500);
-        });
-      }
-      btn.addEventListener('click', function (e) { e.stopPropagation(); doCopy(); });
-      bq.addEventListener('click', doCopy);
-      bq.style.cursor = 'pointer';
-      bq.appendChild(btn);
-    });
+  function isInteractiveTarget(target) {
+    return !!target.closest('a, button, input, textarea, select, summary');
   }
 
-  function applyExternalLinks(root) {
-    root.querySelectorAll('a').forEach(function (a) {
-      var href = a.href.toLowerCase();
-      if (!(href.includes('://localhost') || href.includes('karlmayer.dev') || href.includes('karlmayer.github.io'))) {
-        a.setAttribute('target', '_blank');
-      }
-    });
-  }
-
-  function collapseArticle(article) {
-    var full = article.querySelector('.post-full');
-    var excerpt = article.querySelector('.excerpt');
-    var btn = article.querySelector('.read_more');
-    if (full) full.remove();
-    if (excerpt) excerpt.hidden = false;
-    if (btn) {
-      btn.hidden = false;
-      btn.style.pointerEvents = '';
-      btn.textContent = 'Read more...';
-      btn.setAttribute('aria-expanded', 'false');
-    }
-  }
-
-  async function expandArticle(article) {
+  function goToArticle(article) {
     var postUrl = article.dataset.postUrl;
-    var excerpt = article.querySelector('.excerpt');
-    var btn = article.querySelector('.read_more');
-    btn.textContent = 'Loading...';
-    btn.style.pointerEvents = 'none';
-    try {
-      var res = await fetch(postUrl);
-      var html = await res.text();
-      var doc = new DOMParser().parseFromString(html, 'text/html');
-      var section = doc.querySelector('.blog-post section');
-      if (section) {
-        var full = document.createElement('div');
-        full.className = 'post-full';
-        var endMarker = null;
-        section.childNodes.forEach(function (node) {
-          if (node.nodeType === 8 && node.nodeValue.trim() === 'Excerpt End') {
-            endMarker = node;
-          }
-        });
-        if (endMarker) {
-          var node = endMarker.nextSibling;
-          while (node) {
-            full.appendChild(node.cloneNode(true));
-            node = node.nextSibling;
-          }
-        } else {
-          full.innerHTML = section.innerHTML;
-        }
-        applyExternalLinks(full);
-        applyBlockquoteCopy(full);
-        full.style.overflow = 'hidden';
-        full.style.maxHeight = '0';
-        excerpt.after(full);
-        full.querySelectorAll('script').forEach(function (oldScript) {
-          var newScript = document.createElement('script');
-          Array.from(oldScript.attributes).forEach(function (attr) {
-            newScript.setAttribute(attr.name, attr.value);
-          });
-          newScript.textContent = oldScript.textContent;
-          oldScript.replaceWith(newScript);
-        });
-        btn.hidden = true;
-        btn.setAttribute('aria-expanded', 'true');
-        requestAnimationFrame(function () {
-          full.style.transition = 'max-height 0.9s ease';
-          full.style.maxHeight = full.scrollHeight + 'px';
-          full.addEventListener('transitionend', function () {
-            full.style.maxHeight = '';
-            full.style.overflow = '';
-            full.style.transition = '';
-          }, { once: true });
-        });
-      }
-    } catch (e) {
-      btn.textContent = 'Read more...';
-      btn.style.pointerEvents = '';
+    if (postUrl) {
+      window.location.href = postUrl;
     }
   }
 
   articles.forEach(function (article) {
-    var btn = article.querySelector('.read_more');
-    if (!btn) return;
-    btn.addEventListener('click', function (e) {
-      e.preventDefault();
-      var postUrl = article.dataset.postUrl;
-      expandArticle(article);
-      history.pushState({ postUrl: postUrl }, '', postUrl);
+    article.setAttribute('role', 'link');
+    article.setAttribute('tabindex', '0');
+    article.addEventListener('click', function (e) {
+      if (isInteractiveTarget(e.target)) return;
+      if (window.getSelection && window.getSelection().toString()) return;
+      goToArticle(article);
     });
-  });
 
-  window.addEventListener('popstate', function (e) {
-    if (!e.state || e.state.home) {
-      articles.forEach(collapseArticle);
-    } else if (e.state.postUrl) {
-      articles.forEach(collapseArticle);
-      var article = document.querySelector('article[data-post-url="' + e.state.postUrl + '"]');
-      if (article) expandArticle(article);
-    }
+    article.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      if (isInteractiveTarget(e.target)) return;
+      e.preventDefault();
+      goToArticle(article);
+    });
   });
 })();
 

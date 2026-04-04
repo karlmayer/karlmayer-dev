@@ -570,6 +570,87 @@ ol {
     margin-bottom: 0.5em;
 }
 
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.post-grid .post-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid color-mix(in srgb, var(--surface-color) 70%, var(--muted-color));
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--surface-color) 22%, var(--background-color));
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.post-grid .post-card:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent-color) 45%, var(--surface-color));
+    box-shadow: 0 6px 18px color-mix(in srgb, var(--text-color) 8%, transparent);
+}
+
+.post-grid .post-card-media {
+    display: block;
+    flex: 0 0 auto;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 0.85rem;
+    aspect-ratio: 16 / 9;
+    background: color-mix(in srgb, var(--surface-color) 65%, var(--background-color));
+}
+
+.post-grid .post-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.post-grid .post-card:hover .post-card-media img {
+    transform: scale(1.03);
+}
+
+.post-card-head,
+.post-card-body {
+    flex: 0 0 auto;
+}
+
+.post-card-head {
+    margin-bottom: 0.45rem;
+}
+
+.post-grid .post-card-title,
+.post-grid .post-card-title a {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    padding-bottom: 0;
+}
+
+.post-grid .post-card .excerpt {
+    color: var(--muted-color);
+    margin-bottom: 0.75rem;
+}
+
+.post-grid .post-card-link {
+    font-size: 0.95rem;
+}
+
+.post-grid .post-card .post-full {
+    margin-top: 0.5rem;
+}
+
+@media screen and (width <= 1080px) {
+    .post-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
 #icon-bar a {
     flex: 0 0 auto;
 }
@@ -678,6 +759,10 @@ picture img {
 }
 
 @media screen and (width <= 820px) {
+    .post-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     #top {
         align-items: flex-start;
     }
@@ -734,5 +819,11 @@ picture img {
         max-height: none;
         object-position: initial;
         object-fit: contain;
+    }
+}
+
+@media screen and (width <= 620px) {
+    .post-grid {
+        grid-template-columns: 1fr;
     }
 }
