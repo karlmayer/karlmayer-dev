@@ -89,7 +89,7 @@ a distributed system.
 
 My initial starting point was to let the LLM do the work. That didn't pan out.
 
-### V1 — LLM-primary
+### v1 — LLM-primary
 
 Give the LLM the puzzle, have it propose the full digit mapping, use deterministic agents to provide
 context. For famous puzzles it pattern-matched on training data. For novel puzzles it guessed badly.
@@ -99,7 +99,7 @@ The problem wasn't the LLM. It was what I was asking it to do. Proposing a full 
 two distinct phases — narrowing the search space and searching it — into one step. That's not what
 an LLM is good at.
 
-### V2 — Solver-primary
+### v2 — Solver-primary
 
 Next, I tried cutting the LLM down to one call, 128 tokens, search-ordering hints only. Hand the
 rest to a backtracking constraint solver. This worked. But the solver was just ended up
@@ -109,7 +109,7 @@ which letter to assign first. It wasn't doing enough to shrink the space before 
 So I asked: what if the LLM focused entirely on elimination? Not "try S first" but "S can't be these
 34 digits, here's why."
 
-### V3 — Blackboard
+### v3 — Blackboard-optimized
 
 Last, I switched to the LLM reasoning column by column, round by round, eliminating digits from each
 letter's domain before the solver touches it. A board makes the loop legible — the LLM sees what
@@ -136,10 +136,9 @@ So what made the cut? Here are the six levels — each persisted as JSON message
 
 ---
 
-Each round, the constraint agent reads L1, L2, L3, and L5 before calling the LLM — then posts its
+Each round, the hypothesis agent reads L1, L2, L3, and L5 before calling the LLM — then posts its
 output to L4. The LLM sees the puzzle definition, word structure facts, current domain sizes, and
-what happened to its prior hypothesis: what stuck and what was rejected. Not a hand-constructed
-summary. The actual structured records other agents wrote.
+what happened to its prior hypothesis: what stuck and what was rejected.
 
 Here's what L4 looks like for SEND+MONEY. The LLM reasons through the columns, self-corrects
 mid-thought:
@@ -171,7 +170,7 @@ And posts this to the board:
 }
 ```
 
-For COOKING + HACKING, we get this in iteration 1:
+For COOKING+HACKING, we get this in iteration 1:
 
 ```json
 {
@@ -202,50 +201,47 @@ The constraint document has four optional fields. `eliminations` is the only one
 search space — digits to remove from each letter's domain. `ordering` tells the solver which letters
 to assign first. `dependencies` surfaces column relationships where two letters are tightly coupled.
 `contradiction_checks` flags pairs of letters the LLM believes are in conflict. All fields are
-optional — the LLM is instructed to omit anything it would be guessing. What matters is what it's
-confident about, not what it can fill in.
+optional — the LLM is instructed to omit anything it would be guessing.
 
-The richer constraint document shows all four fields in use — including `dependencies` and
+The COOKING+HACKING constraint document shows all four fields in use — including `dependencies` and
 `contradiction_checks`, which the simpler puzzle didn't need. The LLM is reasoning about carry
 relationships across columns, not just individual letter domains.
 
 ## Three things I learned
 
-### 1. Wrong eliminations are cheap.
+### 1. We can't presume the LLM is right
 
-We can't presume the LLM is right. Its confidence in its own output is as unreliable as the output
-itself. What matters is that it's useful. If an elimination causes the solver to return
-unsatisfiable, the engine relaxes it and continues. A wrong hint costs microseconds of extra
-backtracking. A wrong full-mapping proposal costs another ten-second LLM call.
+Wrong eliminations are cheap. LLM confidence in its own output is as unreliable as the output
+itself. What matters is that the LLM's constraint reasoning is useful to the solver. If an
+elimination causes the solver to return unsatisfiable, the controller can relax it for another
+iteration.
 
-The LLM belongs where mistakes are cheap. The solver belongs where correctness is required. That's
-the whole design.
+In this sandbox, a wrong hint costs microseconds of extra backtracking, and a wrong full-mapping
+proposal costs another ten-second LLM call.
 
-### 2. The reasoning chain doesn't go on the board.
+### 2. The reasoning chain doesn't go on the board
 
-The stream shows why. Long, self-correcting, unstructured. It persists in a side-channel
-conversation history — threaded across rounds so the LLM retains continuity — but it doesn't go
-through the board.
+The reasoning streams above show why. Long, self-correcting, unstructured. I decided to persist
+these in a side-channel conversation history — threaded across rounds so the LLM retains continuity.
 
-The obvious argument for putting it there: full transparency, auditable reasoning, another agent
+Three arguments for persisting it separate: full transparency, auditable reasoning, another agent
 could catch errors before they become eliminations.
 
-The problem: the board holds findings — typed, structured entries agents can act on, contradict, or
+Why separate? The board holds findings — typed, structured entries agents can act on, contradict, or
 build from. A reasoning chain is none of those things. It contaminates the hypothesis level with
 internal monologue. Thinking tokens dwarf structured output. L4 holds what the LLM concluded, not
 how it got there.
 
-### 3. Stagnation is expected, not a bug.
+### 3. Stagnation is expected, not a bug
 
 Any given round might narrow the search space — or it might not. No way to know in advance which
-paths lead to a solution. That uncertainty is the point. It's why there's a loop.
+paths lead to a solution. That uncertainty is the point. It's why there are iterations.
 
 Stagnation happens when the hypothesis space is exhausted before the solver is. The LLM has nothing
 left to eliminate with confidence. Posts contradiction checks instead. Domains stop narrowing.
 
-The circuit breaker — two consecutive rounds with no domain narrowing, hand off to the solver —
-isn't fixing a broken design. It's the control layer recognizing hypotheses are spent. The board
-tells you when. The controller acts on the signal.
+To address this, a circuit breaker. Two consecutive rounds with no domain narrowing, and the
+controller will act on the signal.
 
 ## Before you build yours
 
