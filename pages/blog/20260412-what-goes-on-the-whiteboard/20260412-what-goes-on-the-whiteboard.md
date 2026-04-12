@@ -14,7 +14,7 @@ layout: blog-post
 
 <!-- Excerpt Start -->
 
-{% image "send-more-money.png", "The cryptarithmetic puzzle SEND + MORE = MONEY with solution digits mapped.", "(max-width: 600px) 100vw, 600px", "[The classic: a puzzle from a 1924 magazine.](https://en.wikipedia.org/wiki/Cryptarithmetic)" %}
+{% image "send-more-money.png", "The cryptarithmetic puzzle SEND + MORE = MONEY with solution digits mapped.", "(max-width: 600px) 100vw, 600px", "[A classic puzzle over 100 years old.](https://en.wikipedia.org/wiki/Cryptarithmetic)" %}
 
 A blackboard architecture is a simple idea. Agents read from and write to shared state. Each agent
 operates at a specific level. A controller decides what runs next. No agent talks directly to
@@ -57,8 +57,9 @@ M O N E Y
 S=Z  E=W  N=X  D=6 M=1  O=0  R=Y  Y=2 (base 36)
 ```
 
-Same structure. Much larger search space. My solver found the base-36 solution in 48,850 nodes —
-down from a 1.7 million node baseline — after five rounds of LLM constraint narrowing.
+Same structure. Much larger search space. My solver found a base-36 solution (there can be multiple
+solutions) in 48,850 nodes — of the 1.7 million possibilities — after five rounds of LLM constraint
+narrowing.
 
 Harder puzzles reveal more. COOKING + HACKING = TONIGHT has 9 unique letters, more columns, and
 shared letters creating tighter dependencies across the addition. It has a base-10 solution — I'll
@@ -170,7 +171,7 @@ And posts this to the board:
 }
 ```
 
-For COOKING + HACKING, we get this in the iteration 1:
+For COOKING + HACKING, we get this in iteration 1:
 
 ```json
 {
@@ -229,21 +230,15 @@ through the board.
 The obvious argument for putting it there: full transparency, auditable reasoning, another agent
 could catch errors before they become eliminations.
 
-The problem: the board holds beliefs — typed, structured entries agents can act on, contradict, or
+The problem: the board holds findings — typed, structured entries agents can act on, contradict, or
 build from. A reasoning chain is none of those things. It contaminates the hypothesis level with
 internal monologue. Thinking tokens dwarf structured output. L4 holds what the LLM concluded, not
 how it got there.
 
-The better question isn't whether reasoning belongs on the board. It's whether anything in it is
-worth extracting as a typed belief. That's the discipline.
-
-The board carries inter-agent beliefs. The conversation history carries intra-agent continuity. Both
-matter. Neither is the other.
-
 ### 3. Stagnation is expected, not a bug.
 
 Any given round might narrow the search space — or it might not. No way to know in advance which
-paths lead to the solution. That uncertainty is the point. It's why there's a loop.
+paths lead to a solution. That uncertainty is the point. It's why there's a loop.
 
 Stagnation happens when the hypothesis space is exhausted before the solver is. The LLM has nothing
 left to eliminate with confidence. Posts contradiction checks instead. Domains stop narrowing.
@@ -251,9 +246,6 @@ left to eliminate with confidence. Posts contradiction checks instead. Domains s
 The circuit breaker — two consecutive rounds with no domain narrowing, hand off to the solver —
 isn't fixing a broken design. It's the control layer recognizing hypotheses are spent. The board
 tells you when. The controller acts on the signal.
-
-The original blackboard architecture called this scheduler control. When no knowledge source had a
-promising hypothesis, the system didn't loop. It decided. Same idea, different name.
 
 ## Before you build yours
 
@@ -283,6 +275,7 @@ And three questions worth sitting with:
 
 The architecture is obvious once you've built it wrong twice.
 
-— Karl
+You can find my
+[cryptarithmetic blackboard sandbox here](https://github.com/karlmayer/cryptarithmetic-ai-blackboard).
 
-_P.S. I'll post the code to GitHub soon._
+— Karl
