@@ -14,7 +14,7 @@ layout: blog-post
 
 <!-- Excerpt Start -->
 
-{% image "send-more-money.png", "The cryptarithmetic puzzle SEND + MORE = MONEY with solution digits mapped.", "(max-width: 600px) 100vw, 600px", "[The classic: where each letter is a unique digit.](https://en.wikipedia.org/wiki/Cryptarithmetic)" %}
+{% image "send-more-money.png", "The cryptarithmetic puzzle SEND + MORE = MONEY with solution digits mapped.", "(max-width: 600px) 100vw, 600px", "[The classic: a puzzle from a 1924 magazine.](https://en.wikipedia.org/wiki/Cryptarithmetic)" %}
 
 A blackboard architecture is a simple idea. Agents read from and write to shared state. Each agent
 operates at a specific level. A controller decides what runs next. No agent talks directly to
