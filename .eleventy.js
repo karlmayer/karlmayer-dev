@@ -6,6 +6,7 @@ moment.locale('en');
 module.exports = async function (eleventyConfig) {
     const { EleventyRenderPlugin } = await import("@11ty/eleventy");
     const PluginRss = await import("@11ty/eleventy-plugin-rss");
+        const SyntaxHighlight = await import("@11ty/eleventy-plugin-syntaxhighlight");
     const Image = (await import("@11ty/eleventy-img")).default;
     const markdownIt = (await import("markdown-it")).default;
     const markdownItAnchor = (await import("markdown-it-anchor")).default;
@@ -24,6 +25,7 @@ module.exports = async function (eleventyConfig) {
 
     eleventyConfig.addPlugin(PluginRss.default);
     eleventyConfig.addPlugin(EleventyRenderPlugin);
+    eleventyConfig.addPlugin(SyntaxHighlight.default);
 
     eleventyConfig.addPassthroughCopy('img');
     eleventyConfig.addPassthroughCopy({'pages/robots.txt': 'robots.txt'});
