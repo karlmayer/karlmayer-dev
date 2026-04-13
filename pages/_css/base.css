@@ -367,6 +367,7 @@ ol {
 
 .blog-post blockquote {
     position: relative;
+    clear: right;
     border-left: 3px solid var(--accent-color);
     background-color: color-mix(in srgb, var(--surface-color) 35%, var(--background-color));
     border-radius: 0 4px 4px 0;
@@ -374,6 +375,11 @@ ol {
     margin: 1em 0;
     color: color-mix(in srgb, var(--text-color) 60%, var(--muted-color));
     font-style: italic;
+}
+
+.blog-post blockquote em,
+.blog-post blockquote i {
+    font-style: normal;
 }
 
 .blockquote-copy {
