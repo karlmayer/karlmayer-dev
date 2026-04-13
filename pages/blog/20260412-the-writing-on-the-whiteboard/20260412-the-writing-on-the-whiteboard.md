@@ -5,15 +5,12 @@ description:
   agents read and write shared structured state, and what three versions taught me about using LLMs
   to reduce search space."
 excerpt:
-  "Protocols like A2A make agent-to-agent calls easier to standardize. The tangle is still there:
-  scattered state, no persistent record of what any agent actually believed. The blackboard
-  architectures fix this — but building one taught me things I missed in the theory."
+  "A2A standardizes agent calls. It doesn't fix scattered state. Building a blackboard architecture
+  did. Mostly."
 date: 2026-04-12
 tags: [posts, architecture, ai]
 layout: blog-post
 ---
-
-<!-- Excerpt Start -->
 
 {% image "send-more-money.png", "The cryptarithmetic puzzle SEND + MORE = MONEY with solution digits mapped.", "(max-width: 600px) 100vw, 600px", "[A classic puzzle over 100 years old.](https://en.wikipedia.org/wiki/Cryptarithmetic)" %}
 
