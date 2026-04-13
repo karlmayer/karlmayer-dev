@@ -61,12 +61,12 @@ S=Z  E=W  N=X  D=6 M=1  O=0  R=Y  Y=2 (base 36)
 ```
 
 Same structure. Much larger search space — 8 unique letters in base 36 = 36P8 or 1,168,675,200
-possible assignments! My solver found the base-36 solution in 48,850 nodes after five rounds of LLM
-constraint narrowing.
+possible assignments. The blackboard solver found a base-36 solution in 48,850 nodes after five
+rounds of LLM constraint narrowing.
 
-COOKING + HACKING = TONIGHT has 9 unique letters — 36P9 = 32,723,005,600 possible assignments, about
-28x harder than SEND + MORE = MONEY. Without LLM constraints a puzzle like this can take 1.7 million
-solver nodes. With constraints, 63,375. It has a base-10 solution too — I'll leave that for you.
+COOKING + HACKING = TONIGHT has 9 unique letters or 32 trillion possible assignments! With heuristic
+constraints, a puzzle like this can take 2 million solver nodes. With LLM constraints, the
+blackboard solver took 63,375. It has a base-10 solution too — I'll leave that for you.
 
 ```
   C O O K I N G
