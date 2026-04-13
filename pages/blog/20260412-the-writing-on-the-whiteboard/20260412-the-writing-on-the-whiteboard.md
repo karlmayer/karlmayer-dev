@@ -1,12 +1,13 @@
 ---
-title: "What Goes on the Whiteboard"
+title: "The Writing on the Blackboard"
 description:
   "A blackboard architecture for cryptarithmetic constraint solving — how I designed a system where
   agents read and write shared structured state, and what three versions taught me about using LLMs
   to reduce search space."
 excerpt:
-  "A blackboard architecture sounds simple until you build one. Then it sounds obvious — but only in
-  retrospect."
+  "Protocols like A2A make agent-to-agent calls easier to standardize. The tangle is still there:
+  scattered state, no persistent record of what any agent actually believed. The blackboard
+  architectures fix this — but building one taught me things I missed in the theory."
 date: 2026-04-12
 tags: [posts, architecture, ai]
 layout: blog-post
@@ -16,20 +17,22 @@ layout: blog-post
 
 {% image "send-more-money.png", "The cryptarithmetic puzzle SEND + MORE = MONEY with solution digits mapped.", "(max-width: 600px) 100vw, 600px", "[A classic puzzle over 100 years old.](https://en.wikipedia.org/wiki/Cryptarithmetic)" %}
 
-A blackboard architecture is a simple idea. Agents read from and write to shared state. Each agent
-operates at a specific level. A controller decides what runs next. No agent talks directly to
-another.
+Imagine a team where everyone whispers directly to each other. It works — until something goes wrong
+and you have no idea who said what to whom. That's most multi-agent AI systems today. Agents call
+agents, outputs feed inputs, and state scatters across the system with no persistent record of what
+anyone believed at any point. Protocols like A2A make those calls easier to standardize. They don't
+make the mess easier to understand.
 
-Most multi-agent systems collapse into a web of direct calls — fast to build, hard to reason about.
-The blackboard keeps communication explicit and state inspectable. It lets deterministic and
-non-deterministic agents collaborate at scale — a rules engine and an LLM, a simulator and a
-reasoning model, a constraint solver and a language model — each reading from the same board, each
-doing what it's actually good at. That matters for any domain where you need both correctness and
-judgment: drug discovery, financial modeling, logistics, code analysis.
+The blackboard is the alternative. Instead of agents whispering to each other, they all read from
+and write to a shared board. Every belief on the record. Every level explicit. When something
+breaks, you read the board — you don't untangle a call graph. It lets deterministic and
+non-deterministic agents collaborate — a constraint solver and an LLM, a rules engine and a
+reasoning model — each doing what it's actually good at. That combination matters anywhere you need
+both correctness and judgment: drug discovery, data science, logistics, code generation.
 
 That's the theory anyway. I wrote about
-[why this architecture matters](https://www.karlmayer.dev/post/2026/04/02/we-had-blackboards-once/).
-This is what building one taught me.
+[why this architecture matters](/post/2026/04/02/we-had-blackboards-once). This is what building one
+taught me.
 
 ## The sandbox problem
 
@@ -57,13 +60,13 @@ M O N E Y
 S=Z  E=W  N=X  D=6 M=1  O=0  R=Y  Y=2 (base 36)
 ```
 
-Same structure. Much larger search space. My solver found a base-36 solution (there can be multiple
-solutions) in 48,850 nodes — of the 1.7 million possibilities — after five rounds of LLM constraint
-narrowing.
+Same structure. Much larger search space — 8 unique letters in base 36 = 36P8 or 1,168,675,200
+possible assignments! My solver found the base-36 solution in 48,850 nodes after five rounds of LLM
+constraint narrowing.
 
-Harder puzzles reveal more. COOKING + HACKING = TONIGHT has 9 unique letters, more columns, and
-shared letters creating tighter dependencies across the addition. It has a base-10 solution — I'll
-leave that for the reader — here's a base-36 solution found in 63,375 nodes:
+COOKING + HACKING = TONIGHT has 9 unique letters — 36P9 = 32,723,005,600 possible assignments, about
+28x harder than SEND + MORE = MONEY. Without LLM constraints a puzzle like this can take 1.7 million
+solver nodes. With constraints, 63,375. It has a base-10 solution too — I'll leave that for you.
 
 ```
   C O O K I N G
@@ -89,7 +92,7 @@ a distributed system.
 
 My initial starting point was to let the LLM do the work. That didn't pan out.
 
-### v1 — LLM-primary
+### V1 — LLM-primary
 
 Give the LLM the puzzle, have it propose the full digit mapping, use deterministic agents to provide
 context. For famous puzzles it pattern-matched on training data. For novel puzzles it guessed badly.
@@ -99,7 +102,7 @@ The problem wasn't the LLM. It was what I was asking it to do. Proposing a full 
 two distinct phases — narrowing the search space and searching it — into one step. That's not what
 an LLM is good at.
 
-### v2 — Solver-primary
+### V2 — Solver-primary
 
 Next, I tried cutting the LLM down to one call, 128 tokens, search-ordering hints only. Hand the
 rest to a backtracking constraint solver. This worked. But the solver was just ended up
@@ -109,7 +112,7 @@ which letter to assign first. It wasn't doing enough to shrink the space before 
 So I asked: what if the LLM focused entirely on elimination? Not "try S first" but "S can't be these
 34 digits, here's why."
 
-### v3 — Blackboard-optimized
+### V3 — Blackboard-optomized
 
 Last, I switched to the LLM reasoning column by column, round by round, eliminating digits from each
 letter's domain before the solver touches it. A board makes the loop legible — the LLM sees what
@@ -136,9 +139,10 @@ So what made the cut? Here are the six levels — each persisted as JSON message
 
 ---
 
-Each round, the hypothesis agent reads L1, L2, L3, and L5 before calling the LLM — then posts its
+Each round, the constraint agent reads L1, L2, L3, and L5 before calling the LLM — then posts its
 output to L4. The LLM sees the puzzle definition, word structure facts, current domain sizes, and
-what happened to its prior hypothesis: what stuck and what was rejected.
+what happened to its prior hypothesis: what stuck and what was rejected. Not a hand-constructed
+summary. The actual structured records other agents wrote.
 
 Here's what L4 looks like for SEND+MONEY. The LLM reasons through the columns, self-corrects
 mid-thought:
@@ -170,7 +174,7 @@ And posts this to the board:
 }
 ```
 
-For COOKING+HACKING, we get this in iteration 1:
+For COOKING + HACKING, we get this in iteration 1:
 
 ```json
 {
@@ -201,15 +205,16 @@ The constraint document has four optional fields. `eliminations` is the only one
 search space — digits to remove from each letter's domain. `ordering` tells the solver which letters
 to assign first. `dependencies` surfaces column relationships where two letters are tightly coupled.
 `contradiction_checks` flags pairs of letters the LLM believes are in conflict. All fields are
-optional — the LLM is instructed to omit anything it would be guessing.
+optional — the LLM is instructed to omit anything it would be guessing. What matters is what it's
+confident about, not what it can fill in.
 
-The COOKING+HACKING constraint document shows all four fields in use — including `dependencies` and
+The richer constraint document shows all four fields in use — including `dependencies` and
 `contradiction_checks`, which the simpler puzzle didn't need. The LLM is reasoning about carry
 relationships across columns, not just individual letter domains.
 
 ## Three things I learned
 
-### 1. We can't presume the LLM is right
+### 1. We can't presume the LLM is right.
 
 Wrong eliminations are cheap. LLM confidence in its own output is as unreliable as the output
 itself. What matters is that the LLM's constraint reasoning is useful to the solver. If an
@@ -219,7 +224,7 @@ iteration.
 In this sandbox, a wrong hint costs microseconds of extra backtracking, and a wrong full-mapping
 proposal costs another ten-second LLM call.
 
-### 2. The reasoning chain doesn't go on the board
+### 2. The reasoning chain doesn't go on the board.
 
 The reasoning streams above show why. Long, self-correcting, unstructured. I decided to persist
 these in a side-channel conversation history — threaded across rounds so the LLM retains continuity.
@@ -232,7 +237,7 @@ build from. A reasoning chain is none of those things. It contaminates the hypot
 internal monologue. Thinking tokens dwarf structured output. L4 holds what the LLM concluded, not
 how it got there.
 
-### 3. Stagnation is expected, not a bug
+### 3. Stagnation is expected, not a bug.
 
 Any given round might narrow the search space — or it might not. No way to know in advance which
 paths lead to a solution. That uncertainty is the point. It's why there are iterations.
