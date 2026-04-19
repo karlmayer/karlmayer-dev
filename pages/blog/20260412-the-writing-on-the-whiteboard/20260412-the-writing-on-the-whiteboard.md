@@ -79,11 +79,9 @@ should do. Structured in exactly the levels a board wants — word structure, co
 domains, solution mapping.
 
 I ran the LLM locally on a MacBook M5 using `openai/gpt-oss-20b` via LM Studio. That way I could
-swap models deliberately, see the full output, and optimize for the architecture — not the bill!
-
-No database, no distributed compute, and minimal parallelism needed. Just in-memory data structures
-on a single machine. But the architecture scales. The same levels, schemas, and control loop work in
-a distributed system.
+swap models deliberately, see the full output, and focus on design iterations — not the bill! I
+didn't delve into the database or or distributed compute, but confidently, the architecture scales.
+The same levels, schemas, and control loop work in a distributed system.
 
 ## Three versions
 
@@ -138,8 +136,7 @@ So what made the cut? Here are the six levels — each persisted as JSON message
 
 Each round, the constraint agent reads L1, L2, L3, and L5 before calling the LLM — then posts its
 output to L4. The LLM sees the puzzle definition, word structure facts, current domain sizes, and
-what happened to its prior hypothesis: what stuck and what was rejected. Not a hand-constructed
-summary. The actual structured records other agents wrote.
+what happened to its prior hypothesis: what stuck and what was rejected.
 
 Here's what L4 looks like for SEND+MONEY. The LLM reasons through the columns, self-corrects
 mid-thought:
