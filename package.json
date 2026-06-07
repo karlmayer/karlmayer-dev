@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "jest",
+    "test": "vitest run --globals",
     "dev": "eleventy --serve",
     "build": "eleventy",
     "lint": "eslint .eleventy.js && stylelint \"pages/_css/**/*.css\"",
@@ -9,26 +9,21 @@
     "history:rewrite:path": "bash scripts/rewrite-path-history.sh"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.5",
+    "@11ty/eleventy": "^3.1.6",
     "@11ty/eleventy-plugin-rss": "^2.0.4",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
     "clean-css": "^5.3.3",
-    "eslint": "^10.2.0",
-    "jest": "^30.3.0",
-    "markdown-it": "^14.1.1",
+    "eslint": "^10.4.1",
+    "markdown-it": "^14.2.0",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-footnote": "^4.0.0",
     "moment": "^2.30.1",
-    "stylelint": "^17.7.0",
-    "stylelint-config-standard": "^40.0.0"
+    "stylelint": "^17.13.0",
+    "stylelint-config-standard": "^40.0.0",
+    "vitest": "^4.1.8"
   },
   "dependencies": {
     "@11ty/eleventy-img": "^6.0.4"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "sharp",
-      "unrs-resolver"
-    ]
-  }
+  "packageManager": "pnpm@11.5.2+sha512.71c631e382066efc25625d5cf029075de07b61b37f6e27350fbd84b1bda5864c8c1967adc280776b45c30a715c0359a3be08fef42d5bb09e2b99029979692916"
 }
