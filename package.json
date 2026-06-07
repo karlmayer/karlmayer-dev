@@ -6,7 +6,8 @@
     "lint": "eslint .eleventy.js && stylelint \"pages/_css/**/*.css\"",
     "lint:fix": "eslint .eleventy.js --fix && stylelint \"pages/_css/**/*.css\" --fix",
     "history:rewrite:blog": "bash scripts/rewrite-path-history.sh pages/blog --yes",
-    "history:rewrite:path": "bash scripts/rewrite-path-history.sh"
+    "history:rewrite:path": "bash scripts/rewrite-path-history.sh",
+    "prepare": "husky"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6",
@@ -14,6 +15,7 @@
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
     "clean-css": "^5.3.3",
     "eslint": "^10.4.1",
+    "husky": "^9.1.7",
     "markdown-it": "^14.2.0",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-footnote": "^4.0.0",

@@ -23,45 +23,54 @@ pagination:
   </div>
 </span>
 <div class="post-grid">
-{% for post in pagination.items %}
-  <article class="blog-post post-card" data-post-url="{{ post.url | url }}">
-    <a class="post-card-media" href="{{ post.url | url }}" aria-label="Open {{ post.data.title }}">
-      <img src="{{ post.data.ogImage }}" alt="Preview image for {{ post.data.title }}" loading="lazy" decoding="async">
-    </a>
-    <header class="post-card-head">
-      <time datetime="{{ post.date | dateIso }}">{{
-        post.date | dateInternational
-      }}</time>
-      <h1 class="post-card-title">
-        <a href="{{ post.url | url }}">{{ post.data.title }}</a>
-      </h1>
-    </header>
-    <section class="post-card-body">
-      <div class="excerpt">
-        {% if post.data.excerpt %}
-          {{ post.data.excerpt }}
-        {% else %}
-          {% excerpt post %}
-        {% endif %}
-      </div>
+  {% for post in pagination.items %}
+    <article class="blog-post post-card" data-post-url="{{ post.url | url }}">
       <a
+        class="post-card-media"
         href="{{ post.url | url }}"
-        aria-label="Read more on {{ post.data.title }}"
-        aria-expanded="false"
-        class="read_more post-card-link"
-      >Read more...</a>
-    </section>
-  </article>
-{% endfor %}
+        aria-label="Open {{ post.data.title }}"
+      >
+        <img
+          src="{{ post.data.ogImage }}"
+          alt="Preview image for {{ post.data.title }}"
+          loading="lazy"
+          decoding="async"
+        >
+      </a>
+      <header class="post-card-head">
+        <time datetime="{{ post.date | dateIso }}">{{
+          post.date | dateInternational
+        }}</time>
+        <h1 class="post-card-title">
+          <a href="{{ post.url | url }}">{{ post.data.title }}</a>
+        </h1>
+      </header>
+      <section class="post-card-body">
+        <div class="excerpt">
+          {% if post.data.excerpt %}
+            {{ post.data.excerpt }}
+          {% else %}
+            {% excerpt post %}
+          {% endif %}
+        </div>
+        <a
+          href="{{ post.url | url }}"
+          aria-label="Read more on {{ post.data.title }}"
+          aria-expanded="false"
+          class="read-more post-card-link"
+        >Read more...</a>
+      </section>
+    </article>
+  {% endfor %}
 </div>
 
 <script>
-(function () {
-  var articles = document.querySelectorAll('article.blog-post[data-post-url]');
+(function() {
+  var articles = document.querySelectorAll("article.blog-post[data-post-url]");
   if (!articles.length) return;
 
   function isInteractiveTarget(target) {
-    return !!target.closest('a, button, input, textarea, select, summary');
+    return !!target.closest("a, button, input, textarea, select, summary");
   }
 
   function goToArticle(article) {
@@ -71,17 +80,17 @@ pagination:
     }
   }
 
-  articles.forEach(function (article) {
-    article.setAttribute('role', 'link');
-    article.setAttribute('tabindex', '0');
-    article.addEventListener('click', function (e) {
+  articles.forEach(function(article) {
+    article.setAttribute("role", "link");
+    article.setAttribute("tabindex", "0");
+    article.addEventListener("click", function(e) {
       if (isInteractiveTarget(e.target)) return;
       if (window.getSelection && window.getSelection().toString()) return;
       goToArticle(article);
     });
 
-    article.addEventListener('keydown', function (e) {
-      if (e.key !== 'Enter' && e.key !== ' ') return;
+    article.addEventListener("keydown", function(e) {
+      if (e.key !== "Enter" && e.key !== " ") return;
       if (isInteractiveTarget(e.target)) return;
       e.preventDefault();
       goToArticle(article);
@@ -89,36 +98,40 @@ pagination:
   });
 })();
 
-(function () {
-  var btn = document.getElementById('rss-btn');
-  var popover = document.getElementById('rss-popover');
-  var copy = document.getElementById('rss-copy');
+(function() {
+  var btn = document.getElementById("rss-btn");
+  var popover = document.getElementById("rss-popover");
+  var copy = document.getElementById("rss-copy");
 
-  btn.addEventListener('click', function (e) {
+  btn.addEventListener("click", function(e) {
     e.stopPropagation();
     var open = !popover.hidden;
     popover.hidden = open;
-    btn.setAttribute('aria-expanded', String(!open));
+    btn.setAttribute("aria-expanded", String(!open));
   });
 
-  copy.addEventListener('click', function () {
-    navigator.clipboard.writeText('https://www.karlmayer.dev/feed.xml').then(function () {
-      copy.textContent = 'Copied!';
-      setTimeout(function () { copy.textContent = 'Copy'; }, 2000);
-    });
+  copy.addEventListener("click", function() {
+    navigator.clipboard.writeText("https://www.karlmayer.dev/feed.xml").then(
+      function() {
+        copy.textContent = "Copied!";
+        setTimeout(function() {
+          copy.textContent = "Copy";
+        }, 2000);
+      },
+    );
   });
 
-  document.addEventListener('click', function (e) {
+  document.addEventListener("click", function(e) {
     if (!popover.hidden && !popover.contains(e.target)) {
       popover.hidden = true;
-      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute("aria-expanded", "false");
     }
   });
 
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && !popover.hidden) {
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape" && !popover.hidden) {
       popover.hidden = true;
-      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute("aria-expanded", "false");
       btn.focus();
     }
   });

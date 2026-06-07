@@ -263,7 +263,7 @@ ol {
 }
 
 .blog-post section a,
-.read_more {
+.read-more {
     color: var(--accent-color);
     text-decoration: underline;
     text-decoration-color: transparent;
@@ -271,11 +271,11 @@ ol {
 }
 
 .blog-post section a:hover,
-.read_more:hover {
+.read-more:hover {
     text-decoration-color: var(--accent-color);
 }
 
-.read_more {
+.read-more {
     background: none;
     border: none;
     padding: 0;
@@ -307,6 +307,7 @@ ol {
     letter-spacing: 0.05em;
     text-transform: uppercase;
     color: var(--accent-color);
+    position: relative;
 }
 
 .blog-post .footnotes {
@@ -343,10 +344,6 @@ ol {
     margin-bottom: 1.5em;
     border: none;
     border-top: 1px solid var(--surface-color);
-}
-
-.blog-post h2 {
-    position: relative;
 }
 
 .blog-post h2 .header-anchor {
@@ -497,7 +494,6 @@ ol {
     z-index: 100;
     background: color-mix(in srgb, var(--background-color) 65%, transparent);
     backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid color-mix(in srgb, var(--surface-color) 60%, transparent);
     box-shadow: 0 1px 16px color-mix(in srgb, var(--text-color) 4%, transparent);
     display: flex;
