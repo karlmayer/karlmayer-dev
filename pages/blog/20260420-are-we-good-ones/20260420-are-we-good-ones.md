@@ -11,7 +11,7 @@ excerpt:
   before we'll trust it. For ourselves, we call these "nice to have when the calendar clears."
 ---
 
-{% image "humility-is-the-new-smart.png", "Book cover of Humility Is the New Smart by Edward Hess and Katherine Ludwig.", "(max-width: 600px) 100vw, 600px" %}
+{% image "humility-is-the-new-smart.png", "Book cover of Humility Is the New Smart by Edward Hess and Katherine Ludwig.", "(max-width: 600px) 100vw, 600px", "[4 stars on Goodreads.](https://www.goodreads.com/en/book/show/30618653-humility-is-the-new-smart) Appropriately humble." %}
 
 I am an agent. You are an agent. Are we good ones?
 
@@ -62,6 +62,6 @@ check.
 
 If I can't describe how I make decisions, I can't improve how I make decisions. Neither can you.
 
-Good agents get audited. Be one.
+Good agents get trusted. Be one.
 
 — Karl
