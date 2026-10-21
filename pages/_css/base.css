@@ -800,6 +800,12 @@ ol {
     padding-top: 0.3rem;
 }
 
+.picture figcaption .credit {
+    display: block;
+    font-size: 0.65rem;
+    padding-top: 0.15rem;
+}
+
 picture img {
     width: 100%;
     max-width: 640px;

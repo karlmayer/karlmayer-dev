@@ -66,7 +66,7 @@ module.exports = async function (eleventyConfig) {
     });
 
     eleventyConfig.addShortcode('excerpt', article => extractExcerpt(article));
-    eleventyConfig.addAsyncShortcode("image", async function (src, alt, sizes = "100vw", caption = "") {
+    eleventyConfig.addAsyncShortcode("image", async function (src, alt, sizes = "100vw", caption = "", credit = "") {
         const path = this.page.inputPath;
         const dir = path.substring(0, path.lastIndexOf("/") + 1);
         src = dir + src;
@@ -99,7 +99,7 @@ module.exports = async function (eleventyConfig) {
           loading="lazy"
           decoding="async">
       </picture>
-      ${caption ? `<figcaption>${caption.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')}</figcaption>` : ""}
+      ${caption || credit ? `<figcaption>${mdLinks(caption)}${credit ? `<small class="credit">${mdLinks(credit)}</small>` : ""}</figcaption>` : ""}
     </figure>`;
     });
 
@@ -113,6 +113,10 @@ module.exports = async function (eleventyConfig) {
         templateFormats: ["html", "liquid", "njk", "md"],
         passthroughFileCopy: true
     }
+}
+
+function mdLinks(text) {
+    return text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
 }
 
 function extractExcerpt(article) {

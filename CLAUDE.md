@@ -30,8 +30,10 @@ ogImageSrc: image-filename.jpg   # optional — co-located image for og:image
 3. Drop images in the same directory. Reference them with the `image` shortcode:
 
 ```njk
-{% image "filename.jpg", "alt text", "(max-width: 375px) 320px, 800px", "Optional caption" %}
+{% image "filename.jpg", "alt text", "(max-width: 375px) 320px, 800px", "Optional caption", "Optional credit" %}
 ```
+
+Caption and credit both accept `[text](url)` links. The credit renders as a smaller line under the caption; use it for third-party image attribution (e.g. Creative Commons) so the caption stays free.
 
 ## Notes
 
