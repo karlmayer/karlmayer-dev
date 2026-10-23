@@ -1,18 +1,24 @@
 module.exports = async function () {
-    const res = await fetch('https://karlmayer.github.io/e-resume/resume.html');
-    const html = await res.text();
+    try {
+        const res = await fetch('https://karlmayer.github.io/e-resume/resume.html', { signal: AbortSignal.timeout(10000) });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const html = await res.text();
 
-    const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
-    const content = bodyMatch ? bodyMatch[1].trim() : '';
+        const bodyMatch = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
+        const content = bodyMatch ? bodyMatch[1].trim() : '';
 
-    const styles = [];
-    const styleRe = /<style[^>]*>([\s\S]*?)<\/style>/gi;
-    let m;
-    while ((m = styleRe.exec(html)) !== null) {
-        styles.push(scopeCSS(m[1].trim(), '#resume'));
+        const styles = [];
+        const styleRe = /<style[^>]*>([\s\S]*?)<\/style>/gi;
+        let m;
+        while ((m = styleRe.exec(html)) !== null) {
+            styles.push(scopeCSS(m[1].trim(), '#resume'));
+        }
+
+        return { content, styles: styles.join('\n') };
+    } catch (error) {
+        console.warn('⚠️  Failed to fetch resume from external source:', error.message);
+        return { content: '<p>Resume content unavailable. Please try again later.</p>', styles: '' };
     }
-
-    return { content, styles: styles.join('\n') };
 };
 
 function scopeCSS(css, scope) {
