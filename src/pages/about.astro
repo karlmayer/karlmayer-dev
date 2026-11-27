@@ -38,8 +38,14 @@ const resume = await getResume();
     #resume .section h2 {
         color: var(--sl-color-text-accent);
     }
+    /* Dinkus between bio sections. */
     .about-sep {
+        margin-block: 1.5rem;
         text-align: center;
-        color: var(--sl-color-gray-3);
+        font-family: var(--overfit-accent-font);
+        font-size: var(--sl-text-xl);
+        letter-spacing: 0.6em;
+        padding-inline-start: 0.6em; /* offsets trailing letter-spacing so it centres */
+        color: var(--sl-color-gray-2);
     }
 </style>

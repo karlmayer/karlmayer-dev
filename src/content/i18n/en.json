@@ -1,4 +1,5 @@
 {
   "tableOfContents.onThisPage": "In this piece",
-  "tableOfContents.overview": "Top"
+  "tableOfContents.overview": "Top",
+  "starlightBlog.post.date": "{{date, datetime(dateStyle: long; timeZone: UTC)}}"
 }

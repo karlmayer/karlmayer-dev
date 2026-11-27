@@ -68,13 +68,18 @@ header:has(.wordmark) astro-theme-toggle {
     margin-inline-end: -0.5rem;
 }
 
-/* Home page title is visually hidden, so drop its empty panel and the divider below it. */
-.content-panel:has(.sr-only h1) {
-    padding-block: 0;
+/* Page head (every page): title runs straight into the body, no full-bleed divider. */
+.content-panel:has(h1[id="_top"]) {
+    padding-bottom: 0;
 }
 
-.content-panel:has(.sr-only h1) + .content-panel {
+.content-panel + .content-panel {
     border-top: 0;
+}
+
+/* Home page title is visually hidden, so its panel collapses entirely. */
+.content-panel:has(.sr-only h1) {
+    padding-block: 0;
 }
 
 /* Nova hides header nav below md; with no sidebar (and so no mobile menu), keep it visible. */
@@ -171,9 +176,10 @@ h1[id="_top"] {
     }
 }
 
-/* starlight-blog: date sits above the title (PageTitle override); authors aren't shown. */
-.sl-markdown-content > .sl-blog-metadata,
-.sl-blog-metadata-authors {
+/* starlight-blog: the dateline sits above the headline (PageTitle override); authors aren't shown.
+   Extra specificity beats the plugin's scoped styles, which load later. */
+.post-body .sl-markdown-content > .sl-blog-metadata,
+.sl-blog-preview .sl-blog-metadata-authors {
     display: none;
 }
 
