@@ -55,4 +55,5 @@ Posts are MDX: no HTML comments (use `{/* */}`), and inline `style` attributes m
 - `src/pages/about.astro` — fetches the résumé at build time (`src/lib/resume.js`).
 - `src/pages/library.astro` — Goodreads widgets and link lists.
 - `src/pages/feed.xml.ts` — keeps the legacy `/feed.xml` URL; same feed as `/post/rss.xml`.
+- `src/pages/llms.txt.ts`, `llms-full.txt.ts`, `post/[...slug].md.ts` — [llms.txt](https://llmstxt.org) index, all-posts full text, and a plain-Markdown copy of each post. The MDX→Markdown conversion lives in `src/lib/llms.ts`; if a post uses a new MDX component, teach `toMarkdown` about it.
 - `public/` — static files served as-is (`/img/*`, `robots.txt`).

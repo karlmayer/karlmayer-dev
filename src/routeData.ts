@@ -33,8 +33,13 @@ export const onRequest = defineRouteMiddleware(async (context) => {
         { tag: "meta", attrs: { property: "og:image", content: url } },
         { tag: "meta", attrs: { name: "twitter:image", content: url } },
     );
-    if (entry.data.date) {
+    if (isPost) {
         const og = head.find((tag) => tag.attrs?.property === "og:type");
         if (og?.attrs) og.attrs.content = "article";
+        // Plain-Markdown copy for LLMs and agents (src/pages/post/[...slug].md.ts, listed in /llms.txt).
+        head.push({
+            tag: "link",
+            attrs: { rel: "alternate", type: "text/markdown", href: `/${route.id}.md` },
+        });
     }
 });
