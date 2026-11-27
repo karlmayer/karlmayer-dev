@@ -1,0 +1,199 @@
+---
+// Summarize / Ask controls under a post's headline. Hidden until src/scripts/on-device-ai.ts
+// confirms the browser has a built-in model; most visitors never see it.
+---
+
+<div class="on-device-ai not-content" data-on-device-ai hidden>
+    <div class="controls">
+        <span class="label">On-device AI</span>
+        <button type="button" data-summarize>Summarize</button>
+        <button type="button" data-ask>Ask this piece</button>
+    </div>
+
+    <ul class="summary" data-summary aria-live="polite" hidden></ul>
+
+    <form class="ask" data-ask-form hidden>
+        <div class="ask-row">
+            <label class="sr-only" for="on-device-ai-question">Question about this piece</label>
+            <input id="on-device-ai-question" type="text" placeholder="What’s the main argument?" autocomplete="off" />
+            <button type="submit">Ask</button>
+        </div>
+        <label class="web">
+            <input type="checkbox" data-include-web checked />
+            Also search Wikipedia and Hacker News <span>(sends your search query to them)</span>
+        </label>
+    </form>
+    <div class="answer" data-answer aria-live="polite" hidden></div>
+    <ol class="sources" data-sources hidden></ol>
+
+    <p class="status" data-status></p>
+</div>
+
+<script>
+    import "~/scripts/on-device-ai";
+</script>
+
+<style>
+    .on-device-ai {
+        margin-top: 1rem;
+        max-width: 48rem;
+        font-size: var(--sl-text-sm);
+    }
+
+    .controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 1.25rem;
+    }
+
+    .label,
+    button {
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .label {
+        color: var(--sl-color-gray-4);
+    }
+
+    button {
+        padding: 0;
+        border: 0;
+        background: none;
+        cursor: pointer;
+        color: var(--sl-color-text-accent);
+    }
+
+    button:hover {
+        text-decoration: underline;
+        text-underline-offset: 0.4em;
+    }
+
+    button:disabled {
+        cursor: progress;
+        opacity: 0.6;
+    }
+
+    .summary,
+    .answer {
+        margin: 0.75rem 0 0;
+        padding-inline-start: 1rem;
+        border-inline-start: 2px solid var(--sl-color-text-accent);
+        color: var(--sl-color-text);
+        line-height: 1.55;
+    }
+
+    .summary {
+        list-style: none;
+    }
+
+    .summary li + li {
+        margin-top: 0.4rem;
+    }
+
+    .ask {
+        margin-top: 0.75rem;
+    }
+
+    .ask-row {
+        display: flex;
+        gap: 0.75rem;
+    }
+
+    .web {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        font-size: var(--sl-text-xs);
+        color: var(--sl-color-gray-2);
+        cursor: pointer;
+    }
+
+    .web input {
+        flex: none;
+        margin: 0;
+    }
+
+    .web span {
+        color: var(--sl-color-gray-3);
+    }
+
+    /* Rendered answer: a small, safe Markdown subset built as DOM nodes. */
+    .answer :global(p),
+    .answer :global(ul) {
+        margin: 0;
+    }
+
+    .answer :global(* + p),
+    .answer :global(* + ul) {
+        margin-top: 0.5rem;
+    }
+
+    .answer :global(code) {
+        font-size: 0.9em;
+    }
+
+    .answer :global(a.cite) {
+        color: var(--sl-color-text-accent);
+        text-decoration: none;
+        font-size: 0.85em;
+    }
+
+    .answer :global(a.cite:hover) {
+        text-decoration: underline;
+    }
+
+    /* Numbered by hand to match the [n] citations; the theme resets list markers. */
+    .sources {
+        list-style: none;
+        margin: 0.5rem 0 0;
+        padding: 0;
+        font-size: var(--sl-text-xs);
+        color: var(--sl-color-gray-3);
+    }
+
+    .sources::before {
+        content: attr(data-query);
+        display: block;
+        margin-bottom: 0.25rem;
+    }
+
+    .sources :global(li + li) {
+        margin-top: 0.15rem;
+    }
+
+    .sources :global(.num) {
+        display: inline-block;
+        min-width: 2rem;
+        color: var(--sl-color-gray-4);
+    }
+
+    .sources :global(a) {
+        color: var(--sl-color-text-accent);
+    }
+
+    .ask-row input {
+        flex: 1;
+        min-width: 0;
+        padding: 0.35rem 0.6rem;
+        border: 1px solid var(--sl-color-gray-5);
+        border-radius: 4px;
+        background: transparent;
+        color: var(--sl-color-white);
+        font: inherit;
+    }
+
+    .status {
+        margin: 0.5rem 0 0;
+        font-size: var(--sl-text-xs);
+        color: var(--sl-color-gray-3);
+    }
+
+    .status:empty {
+        display: none;
+    }
+</style>

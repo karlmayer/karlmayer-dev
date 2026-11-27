@@ -1,6 +1,7 @@
 ---
 import Default from "@astrojs/starlight/components/PageTitle.astro";
 
+import OnDeviceAI from "~/components/OnDeviceAI.astro";
 import { bylineOf } from "~/lib/authors";
 
 // Posts get a newspaper dateline above the headline.
@@ -24,6 +25,7 @@ const byline = date && bylineOf(entry.data.authors);
     )
 }
 <div class:list={{ "sr-only": isHome }}><Default /></div>
+{date && <OnDeviceAI />}
 
 <style>
     .dateline {
