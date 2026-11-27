@@ -1,31 +1,30 @@
 {
   "scripts": {
-    "test": "vitest run --globals",
-    "dev": "eleventy --serve",
-    "build": "eleventy",
-    "lint": "eslint .eleventy.js && stylelint \"pages/_css/**/*.css\"",
-    "lint:fix": "eslint .eleventy.js --fix && stylelint \"pages/_css/**/*.css\" --fix",
-    "history:rewrite:blog": "bash scripts/rewrite-path-history.sh pages/blog --yes",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro sync && tsc --noEmit --runExternalCode",
+    "lint": "eslint . && stylelint \"src/**/*.css\"",
+    "lint:fix": "eslint . --fix && stylelint \"src/**/*.css\" --fix",
+    "history:rewrite:blog": "bash scripts/rewrite-path-history.sh src/content/docs/post --yes",
     "history:rewrite:path": "bash scripts/rewrite-path-history.sh",
     "prepare": "husky"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.1.7",
-    "@11ty/eleventy-plugin-rss": "^2.0.4",
-    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
-    "clean-css": "^5.3.3",
-    "eslint": "^10.13.0",
+    "@astrojs/ts-content-mapper": "^0.2.0",
+    "eslint": "^10.15.0",
     "husky": "^9.1.7",
-    "markdown-it": "^14.3.3",
-    "markdown-it-anchor": "^9.2.1",
-    "markdown-it-footnote": "^4.0.0",
-    "moment": "^2.31.0",
     "stylelint": "^17.16.0",
     "stylelint-config-standard": "^40.0.0",
-    "vitest": "^4.1.12"
+    "typescript": "7.1.0-beta"
   },
   "dependencies": {
-    "@11ty/eleventy-img": "^6.0.4"
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/starlight": "^0.43.2",
+    "astro": "^7.4.13",
+    "sharp": "^0.35.5",
+    "starlight-blog": "^0.31.0"
   },
-  "packageManager": "pnpm@12.14.0+sha512.c18ba6d87993d3d164cb5e8948f32b2c06ee854487e06cd8d86781342fb3e5bb4634367034711e86802baa9c37bea906ce1929ad08d70884c97d801df13389a6"
+  "packageManager": "pnpm@12.14.0+sha512.c18ba6d87993d3d164cb5e8948f32b2c06ee854487e06cd8d86781342fb3e5bb4634367034711e86802baa9c37bea906ce1929ad08d70884c97d801df13389a6",
+  "type": "module"
 }

@@ -1,0 +1,82 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+
+import fallback from "~/assets/overfit-og.png";
+
+interface Props {
+    limit?: number;
+}
+
+const { limit = 10 } = Astro.props;
+
+const posts = (await getCollection("docs", ({ id, data }) => id.startsWith("post/") && !(import.meta.env.PROD && data.draft)))
+    .sort((a, b) => b.data.date!.getTime() - a.data.date!.getTime())
+    .slice(0, limit);
+---
+
+<div class="post-grid not-content">
+    {
+        posts.map(({ id, data }) => (
+            <article class="post-card">
+                <a class="post-card-media" href={`/${id}/`} tabindex="-1" aria-hidden="true">
+                    <Image src={data.ogImage ?? fallback} alt="" width={600} height={315} fit="cover" position="top" />
+                </a>
+                <time datetime={data.date!.toISOString()}>{data.date!.toISOString().slice(0, 10)}</time>
+                <h2>
+                    <a href={`/${id}/`}>{data.title}</a>
+                </h2>
+                <p>{data.excerpt ?? data.description}</p>
+            </article>
+        ))
+    }
+</div>
+<p class="post-grid-more not-content"><a href="/post/">All writing →</a></p>
+
+<style>
+    .post-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+        gap: 2rem 1.5rem;
+        margin-top: 2rem;
+    }
+    .post-card {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+    }
+    .post-card-media img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1200 / 630;
+        object-fit: cover;
+        border-radius: 0.4rem;
+        display: block;
+    }
+    .post-card time {
+        font-size: var(--sl-text-xs);
+        color: var(--sl-color-gray-3);
+        margin-top: 0.4rem;
+    }
+    .post-card h2 {
+        font-family: var(--overfit-accent-font);
+        font-size: var(--sl-text-2xl);
+        line-height: 1.2;
+        margin: 0;
+    }
+    .post-card h2 a {
+        color: var(--sl-color-white);
+        text-decoration: none;
+    }
+    .post-card h2 a:hover {
+        color: var(--sl-color-accent-high);
+    }
+    .post-card p {
+        color: var(--sl-color-gray-2);
+        margin: 0;
+    }
+    .post-grid-more {
+        margin-top: 2.5rem;
+        text-align: center;
+    }
+</style>

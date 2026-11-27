@@ -38,7 +38,7 @@ jobs:
           cache: 'pnpm'
       - name: Install dependencies
         run: pnpm install
-      - name: 11ty build
+      - name: Astro build
         run: pnpm build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4

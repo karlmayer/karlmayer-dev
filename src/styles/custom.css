@@ -1,0 +1,91 @@
+/* Overfit palette and type on top of Starlight's theme tokens. */
+:root {
+    --overfit-common-font: "My Gill Sans", lato, sans-serif;
+    --overfit-accent-font: "DM Serif Display", serif;
+    --sl-font: var(--overfit-common-font);
+    --sl-color-accent-low: #1a2b5c;
+    --sl-color-accent: #5c8fff;
+    --sl-color-accent-high: #c9d8ff;
+    --sl-color-white: #e8e8e8;
+    --sl-color-black: #141414;
+}
+
+:root[data-theme="light"] {
+    --sl-color-accent-low: #d6e1ff;
+    --sl-color-accent: #2962ff;
+    --sl-color-accent-high: #0d2a80;
+    --sl-color-white: #000;
+    --sl-color-black: #fff;
+}
+
+h1,
+.sl-markdown-content h2,
+.hero h1 {
+    font-family: var(--overfit-accent-font);
+    font-weight: 400;
+}
+
+/* Figures from the <Figure> component: float right on wide screens. */
+.sl-markdown-content .picture {
+    float: right;
+    width: 50%;
+    margin: 0 0 0.5rem 2rem;
+}
+
+.sl-markdown-content .picture img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.sl-markdown-content .picture figcaption {
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+    text-align: center;
+    padding-top: 0.3rem;
+}
+
+.sl-markdown-content .picture .credit {
+    display: block;
+    font-size: 0.65rem;
+    padding-top: 0.15rem;
+}
+
+.sl-markdown-content h2 {
+    clear: right;
+}
+
+@media (width <= 50rem) {
+    .sl-markdown-content .picture {
+        float: none;
+        width: 100%;
+        margin: 1rem 0;
+    }
+}
+
+.sl-markdown-content blockquote {
+    border-inline-start: 3px solid var(--sl-color-accent);
+    background-color: var(--sl-color-gray-6);
+    border-radius: 0 4px 4px 0;
+    padding: 1em 1.1em 0.3em;
+    font-style: italic;
+}
+
+.sl-markdown-content blockquote em,
+.sl-markdown-content blockquote i {
+    font-style: normal;
+}
+
+/* "Can You Read It?" closing cursor. */
+.blink-cursor {
+    font-family: var(--sl-font-mono);
+    font-size: 1.2em;
+    color: #00ff41;
+    animation: blink 1.06s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% {
+        visibility: hidden;
+    }
+}
