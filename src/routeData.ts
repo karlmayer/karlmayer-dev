@@ -4,13 +4,23 @@ import serifLatin from "@fontsource/dm-serif-display/files/dm-serif-display-lati
 
 import { getOgImage } from "~/lib/og";
 
+const MIN_TOC_HEADINGS = 4;
+
+type TocItem = { slug: string; children: TocItem[] };
+
+// Starlight prepends an "Overview" entry (slug `_top`) for the page title; don't count it.
+const countHeadings = (items: TocItem[]): number =>
+    items.reduce((n, item) => n + (item.slug === "_top" ? 0 : 1) + countHeadings(item.children), 0);
+
 export const onRequest = defineRouteMiddleware(async (context) => {
     const route = context.locals.starlightRoute;
     const { entry, head } = route;
 
-    // Blog layout: no docs sidebar or table of contents; the header carries navigation.
+    // Blog layout: no docs sidebar; the header carries navigation. Only posts with enough
+    // sections get a table of contents (rendered in the post rail / mobile bar).
     route.hasSidebar = false;
-    route.toc = undefined;
+    const isPost = route.id.startsWith("post/") && entry.data.date !== undefined;
+    if (!isPost || countHeadings(route.toc?.items ?? []) < MIN_TOC_HEADINGS) route.toc = undefined;
 
     const url = new URL(await getOgImage(entry.data.ogImage), context.site).href;
 

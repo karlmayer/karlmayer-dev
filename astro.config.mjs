@@ -29,6 +29,9 @@ export default defineConfig({
                 PageTitle: "./src/components/overrides/PageTitle.astro",
                 // Both Nova and starlight-blog override this; ours composes the two.
                 MarkdownContent: "./src/components/overrides/MarkdownContent.astro",
+                // Keep the table of contents inside the page column (see PostRail.astro).
+                PageSidebar: "./src/components/overrides/PageSidebar.astro",
+                TwoColumnContent: "./src/components/overrides/TwoColumnContent.astro",
             },
             customCss: ["@fontsource/dm-serif-display/400.css", "./src/styles/custom.css"],
             routeMiddleware: "./src/routeData.ts",

@@ -1,0 +1,13 @@
+---
+// Only the mobile "In this piece" bar lives here. On wide screens the contents render inside
+// the post rail (PostRail.astro) so they stay within the page column.
+import MobileTableOfContents from "starlight-theme-nova/components/MobileTableOfContents.astro";
+---
+
+{
+    Astro.locals.starlightRoute.toc && (
+        <div class="lg:sl-hidden">
+            <MobileTableOfContents />
+        </div>
+    )
+}

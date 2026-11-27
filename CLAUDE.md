@@ -46,8 +46,11 @@ Posts are MDX: no HTML comments (use `{/* */}`), and inline `style` attributes m
 
 ## Layout
 
-- `astro.config.mjs` — Starlight + blog plugin config, sidebar, analytics head tags.
-- `src/routeData.ts` — Starlight route middleware that adds `og:image` / `twitter:image` (1200×630, via `src/lib/og.ts`).
+- `astro.config.mjs` — Starlight + Nova theme + blog plugin config, header nav, component overrides, analytics head tags.
+- `src/routeData.ts` — Starlight route middleware: turns off the docs sidebar, keeps a table of contents only on posts with ≥4 headings, and adds `og:image` / `twitter:image` (1200×630, via `src/lib/og.ts`).
+- `src/components/PostRail.astro` — right rail on posts at ≥72rem: "In this piece" contents (when present) and "More writing". Below 72rem the contents use Nova's mobile bar (`overrides/PageSidebar.astro`).
+- `src/components/overrides/` — Starlight component overrides (wordmark, page title, MarkdownContent composing Nova + starlight-blog, in-column TOC layout).
+- `src/content/i18n/en.json` — UI string overrides (e.g. "On this page" → "In this piece").
 - `src/content/docs/index.mdx` — home page (splash + `PostGrid`).
 - `src/pages/about.astro` — fetches the résumé at build time (`src/lib/resume.js`).
 - `src/pages/library.astro` — Goodreads widgets and link lists.
