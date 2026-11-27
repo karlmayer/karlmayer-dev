@@ -82,17 +82,53 @@ header:has(.wordmark) astro-theme-toggle {
     padding-block: 0;
 }
 
-/* Nova hides header nav below md; with no sidebar (and so no mobile menu), keep it visible. */
+/*
+ * Phones: two-tier masthead. Row 1 is the wordmark with search and the theme toggle at the
+ * right edge; row 2 is the section nav. Nova hides the nav and toggle below md; with no
+ * sidebar (so no mobile menu) we bring both back. Children: title, nav, search, tools.
+ */
 @media (width < 50rem) {
-    header:has(.wordmark) nav,
-    header:has(.wordmark) nav * {
-        display: flex !important;
+    :root {
+        --sl-nav-height: 5.75rem;
     }
 
-    header:has(.wordmark) nav {
-        flex: 0 1 auto;
-        gap: 0.75rem;
-        padding-inline: 0.5rem;
+    header:has(.wordmark) > div {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        grid-template-areas:
+            "title search tools"
+            "nav nav nav";
+        align-items: center;
+        gap: 0.35rem 0.5rem;
+    }
+
+    header:has(.wordmark) > div > :nth-child(1) {
+        grid-area: title;
+    }
+
+    header:has(.wordmark) > div > nav {
+        grid-area: nav;
+        justify-content: flex-start;
+        gap: 1.5rem;
+        padding: 0;
+    }
+
+    header:has(.wordmark) > div > nav a {
+        display: inline-block;
+    }
+
+    header:has(.wordmark) > div > :nth-child(3) {
+        grid-area: search;
+    }
+
+    header:has(.wordmark) > div > :nth-child(4) {
+        grid-area: tools;
+        display: flex;
+    }
+
+    /* GitHub and RSS stay desktop-only; the toggle is enough on a phone. */
+    header:has(.wordmark) a[rel="me"] {
+        display: none;
     }
 }
 
