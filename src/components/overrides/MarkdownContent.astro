@@ -1,0 +1,29 @@
+---
+// Nova and starlight-blog both override MarkdownContent. Posts get starlight-blog's version
+// (tags, prev/next links) plus Nova's code-copy buttons; everything else gets Nova's.
+import BlogMarkdownContent from "starlight-blog/components/MarkdownContent.astro";
+import CodeCopy from "starlight-theme-nova/components/CodeCopy.astro";
+import NovaMarkdownContent from "starlight-theme-nova/components/MarkdownContent.astro";
+
+const { id, entry } = Astro.locals.starlightRoute;
+const isPost = id.startsWith("post/") && entry.data.date !== undefined;
+---
+
+{
+    isPost ? (
+        <>
+            <BlogMarkdownContent>
+                <slot />
+            </BlogMarkdownContent>
+            <CodeCopy />
+        </>
+    ) : (
+        <NovaMarkdownContent>
+            <slot />
+        </NovaMarkdownContent>
+    )
+}
+
+<script>
+    import "~/scripts/enhance";
+</script>

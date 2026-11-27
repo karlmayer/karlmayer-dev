@@ -1,0 +1,46 @@
+---
+import Default from "@astrojs/starlight/components/PageTitle.astro";
+
+// Posts get the old "← All posts" link and ISO date above the title.
+// The home page title is visually hidden; the wordmark already names the site.
+const { id, entry } = Astro.locals.starlightRoute;
+const isPost = id.startsWith("post/") && entry.data.date;
+const isHome = id === "";
+---
+
+{
+    isPost && (
+        <div class="post-head">
+            <a href="/" class="post-back">
+                ← All posts
+            </a>
+            <time datetime={entry.data.date!.toISOString()}>{entry.data.date!.toISOString().slice(0, 10)}</time>
+        </div>
+    )
+}
+<div class:list={{ "sr-only": isHome }}><Default /></div>
+
+<style>
+    .post-head {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        margin-top: 1rem;
+        font-size: var(--sl-text-sm);
+    }
+
+    .post-back {
+        color: var(--sl-color-gray-3);
+        text-decoration: none;
+    }
+
+    .post-back:hover {
+        color: var(--sl-color-white);
+    }
+
+    time {
+        color: var(--sl-color-gray-3);
+        margin-bottom: -0.75rem;
+    }
+</style>

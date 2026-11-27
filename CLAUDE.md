@@ -8,7 +8,7 @@ Personal blog by Karl Mayer. Built with Astro + Starlight, using the `starlight-
 pnpm dev      # dev server with live reload (http://localhost:4321)
 pnpm build    # production build → dist/
 pnpm preview  # serve the built dist/
-pnpm check    # astro sync + tsc 7.1 (beta) with @astrojs/ts-content-mapper for .astro files
+pnpm check    # astro check (type-check .astro/.ts)
 pnpm lint     # eslint + stylelint
 pnpm lint:fix # auto-fix lint issues
 ```

@@ -1,28 +1,135 @@
-/* Overfit palette and type on top of Starlight's theme tokens. */
+/* Overfit branding on top of starlight-theme-nova: blue accent, serif display type, figures. */
+
 :root {
-    --overfit-common-font: "My Gill Sans", lato, sans-serif;
     --overfit-accent-font: "DM Serif Display", serif;
-    --sl-font: var(--overfit-common-font);
     --sl-color-accent-low: #1a2b5c;
     --sl-color-accent: #5c8fff;
     --sl-color-accent-high: #c9d8ff;
-    --sl-color-white: #e8e8e8;
-    --sl-color-black: #141414;
+    --sl-color-text-accent: #5c8fff;
 }
 
 :root[data-theme="light"] {
     --sl-color-accent-low: #d6e1ff;
     --sl-color-accent: #2962ff;
     --sl-color-accent-high: #0d2a80;
-    --sl-color-white: #000;
-    --sl-color-black: #fff;
+    --sl-color-text-accent: #2962ff;
 }
 
-h1,
-.sl-markdown-content h2,
-.hero h1 {
+/* One column for every page (home grid, posts, About, Library), shared by the masthead. */
+:root:not([data-has-sidebar]) {
+    --sl-content-width: 75rem;
+}
+
+/*
+ * Masthead: the header row shares the body's column (same width, same side padding), so the
+ * wordmark lines up with the content's left edge and the theme toggle with its right edge.
+ * A double rule under the column replaces Nova's full-bleed hairline.
+ */
+header:has(.wordmark) {
+    padding-block: 0;
+    padding-inline: var(--sl-content-pad-x);
+    border-bottom: 0;
+}
+
+header:has(.wordmark) > div {
+    max-width: var(--sl-content-width);
+    margin-inline: auto;
+    padding-block: var(--sl-nav-pad-y);
+    border-bottom: 3px double var(--sl-color-gray-5);
+}
+
+/* Section labels: small tracked caps, pushed right next to search and the theme toggle. */
+header:has(.wordmark) nav {
+    justify-content: flex-end;
+}
+
+header:has(.wordmark) nav a {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--sl-color-gray-3);
+}
+
+header:has(.wordmark) nav a:hover,
+header:has(.wordmark) nav a[aria-current="page"] {
+    color: var(--sl-color-white);
+}
+
+header:has(.wordmark) nav a[aria-current="page"] {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.4em;
+}
+
+/* Nova's icon buttons are padded; pull the last one out so its glyph meets the column edge. */
+header:has(.wordmark) astro-theme-toggle {
+    margin-inline-end: -0.5rem;
+}
+
+/* Home page title is visually hidden, so drop its empty panel and the divider below it. */
+.content-panel:has(.sr-only h1) {
+    padding-block: 0;
+}
+
+.content-panel:has(.sr-only h1) + .content-panel {
+    border-top: 0;
+}
+
+/* Nova hides header nav below md; with no sidebar (and so no mobile menu), keep it visible. */
+@media (width < 50rem) {
+    header:has(.wordmark) nav,
+    header:has(.wordmark) nav * {
+        display: flex !important;
+    }
+
+    header:has(.wordmark) nav {
+        flex: 0 1 auto;
+        gap: 0.75rem;
+        padding-inline: 0.5rem;
+    }
+}
+
+h1[id="_top"] {
     font-family: var(--overfit-accent-font);
     font-weight: 400;
+}
+
+.sl-markdown-content a:not(.sl-link-card a, .sl-anchor-link, .not-content a) {
+    color: var(--sl-color-text-accent);
+}
+
+/* Blockquote copy button (src/scripts/enhance.ts) */
+.sl-markdown-content blockquote {
+    position: relative;
+    padding-inline-end: 2.5em;
+    cursor: pointer;
+}
+
+.blockquote-copy {
+    position: absolute;
+    top: 0.45em;
+    right: 0.45em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--sl-color-gray-4);
+    padding: 0.2em;
+    line-height: 0;
+    opacity: 0;
+    transition:
+        opacity 0.15s,
+        color 0.15s;
+}
+
+.sl-markdown-content blockquote:hover .blockquote-copy,
+.blockquote-copy:focus-visible {
+    opacity: 1;
+}
+
+.blockquote-copy:hover {
+    color: var(--sl-color-white);
 }
 
 /* Figures from the <Figure> component: float right on wide screens. */
@@ -36,6 +143,7 @@ h1,
     width: 100%;
     height: auto;
     display: block;
+    border-radius: 0.5rem;
 }
 
 .sl-markdown-content .picture figcaption {
@@ -51,11 +159,11 @@ h1,
     padding-top: 0.15rem;
 }
 
-.sl-markdown-content h2 {
+.sl-markdown-content :is(h2, blockquote, hr) {
     clear: right;
 }
 
-@media (width <= 50rem) {
+@media (width < 50rem) {
     .sl-markdown-content .picture {
         float: none;
         width: 100%;
@@ -63,17 +171,20 @@ h1,
     }
 }
 
-.sl-markdown-content blockquote {
-    border-inline-start: 3px solid var(--sl-color-accent);
-    background-color: var(--sl-color-gray-6);
-    border-radius: 0 4px 4px 0;
-    padding: 1em 1.1em 0.3em;
-    font-style: italic;
+/* starlight-blog: date sits above the title (PageTitle override); authors aren't shown. */
+.sl-markdown-content > .sl-blog-metadata,
+.sl-blog-metadata-authors {
+    display: none;
 }
 
-.sl-markdown-content blockquote em,
-.sl-markdown-content blockquote i {
-    font-style: normal;
+.sl-blog-post-footer {
+    clear: both;
+}
+
+.sl-blog-preview-title,
+.sl-blog-pagination .sl-link-card .title {
+    font-family: var(--overfit-accent-font);
+    font-weight: 400;
 }
 
 /* "Can You Read It?" closing cursor. */

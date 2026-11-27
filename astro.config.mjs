@@ -2,6 +2,7 @@ import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 import starlightBlog from "starlight-blog";
+import starlightThemeNova from "starlight-theme-nova";
 
 const description =
     "Precision that misses the point. Writing on AI, clarity of thought, and the complexity of assumptions.";
@@ -21,13 +22,15 @@ export default defineConfig({
             favicon: "/img/favicon.ico",
             social: [
                 { icon: "github", label: "GitHub", href: "https://github.com/karlmayer" },
+                { icon: "rss", label: "RSS", href: "https://www.karlmayer.dev/feed.xml" },
             ],
-            sidebar: [
-                { label: "Writing", link: "/post/" },
-                { label: "About", link: "/about/" },
-                { label: "Library", link: "/library/" },
-            ],
-            customCss: ["./src/styles/custom.css"],
+            components: {
+                SiteTitle: "./src/components/overrides/SiteTitle.astro",
+                PageTitle: "./src/components/overrides/PageTitle.astro",
+                // Both Nova and starlight-blog override this; ours composes the two.
+                MarkdownContent: "./src/components/overrides/MarkdownContent.astro",
+            },
+            customCss: ["@fontsource/dm-serif-display/400.css", "./src/styles/custom.css"],
             routeMiddleware: "./src/routeData.ts",
             lastUpdated: false,
             pagination: false,
@@ -47,9 +50,17 @@ export default defineConfig({
                 },
             ],
             plugins: [
+                starlightThemeNova({
+                    nav: [
+                        { label: "Writing", href: "/" },
+                        { label: "About", href: "/about/" },
+                        { label: "Library", href: "/library/" },
+                    ],
+                }),
                 starlightBlog({
                     title: "Writing",
                     prefix: "post",
+                    navigation: "none",
                     postCount: 10,
                     recentPostCount: 10,
                     authors: {
