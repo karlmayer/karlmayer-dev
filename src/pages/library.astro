@@ -1,0 +1,66 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+
+const goodreads = "https://www.goodreads.com/review/custom_widget/6982955.";
+const widget =
+    "?cover_position=left&cover_size=small&num_books=10&order=a&show_author=1&show_cover=1&show_rating=0&show_review=0&show_tags=0&show_title=1&sort=date_added&widget_bg_color=FFFFFF&widget_bg_transparent=&widget_border_width=1&widget_text_color=000000&widget_title_size=medium&widget_width=medium";
+const shelves = [
+    { name: "Elegant%20Programming", shelf: "programming-gems", id: "1665415908" },
+    { name: "IT%20Pro%20Recommendations", shelf: "it-pro-recommends", id: "1665415910" },
+    { name: "Great%20Reads", shelf: "great-reads", id: "1665415913" },
+];
+
+const feeds = [
+    ["Slashdot", "https://slashdot.org/"],
+    ["InfoQ Articles", "https://www.infoq.com/articles/"],
+    ["AWS News Blog", "https://aws.amazon.com/blogs/aws/"],
+    ["Microsoft Azure Blog", "https://azure.microsoft.com/en-us/blog/"],
+    ["Netflix Tech Blog", "https://netflixtechblog.com/"],
+    ["Towards Data Science", "https://towardsdatascience.com/"],
+    ["FlowingData", "https://flowingdata.com/"],
+    ["UX Movement", "https://uxmovement.com/"],
+    ["Google The Keyword", "https://blog.google/"],
+];
+
+const casts = [
+    ["This Week in Tech", "https://twit.tv/shows/this-week-in-tech"],
+    ["Intelligent Machines", "https://twit.tv/shows/intelligent-machines"],
+    ["3Blue1Brown", "https://www.youtube.com/c/3blue1brown"],
+    ["Planet Money", "https://www.npr.org/podcasts/510289/planet-money"],
+    ["Disrupt Yourself", "https://thedisruptionadvisors.com/podcast/"],
+    ["Freakonomics Radio", "https://freakonomics.com/podcasts/"],
+];
+---
+
+<StarlightPage
+    frontmatter={{ title: "Library", description: "Books worth recommending — and the feeds and podcasts that keep me thinking." }}
+>
+    <p><em>Books worth recommending — and the feeds and podcasts that keep me thinking.</em></p>
+
+    <div class="library not-content">
+        {
+            shelves.map(({ name, shelf, id }) => (
+                <script
+                    is:inline
+                    src={`${goodreads}${name}${widget}&shelf=${shelf}&widget_id=${id}`}
+                    type="text/javascript"
+                    charset="utf-8"
+                />
+            ))
+        }
+
+        <section class="library-list">
+            <h2>Tech feed fire hose</h2>
+            <ul>{feeds.map(([label, href]) => <li><a href={href}>{label}</a></li>)}</ul>
+        </section>
+
+        <section class="library-list">
+            <h2>Pod/vidcast playlist</h2>
+            <ul>{casts.map(([label, href]) => <li><a href={href}>{label}</a></li>)}</ul>
+        </section>
+    </div>
+</StarlightPage>
+
+<style is:global>
+    @import "../styles/library.css";
+</style>

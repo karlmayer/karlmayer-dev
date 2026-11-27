@@ -1,40 +1,59 @@
 # Overfit — karlmayer.dev
 
-Personal blog by Karl Mayer. Built with Eleventy (11ty) v3.
+Personal blog by Karl Mayer. Built with Astro + Starlight, using the `starlight-blog` plugin (prefix `post`).
 
 ## Commands
 
 ```bash
-pnpm dev      # dev server with live reload
+pnpm dev      # dev server with live reload (http://localhost:4321)
 pnpm build    # production build → dist/
+pnpm preview  # serve the built dist/
+pnpm check    # astro check (type-check .astro/.ts)
 pnpm lint     # eslint + stylelint
 pnpm lint:fix # auto-fix lint issues
 ```
 
 ## Writing a new blog post
 
-1. Create `pages/blog/YYYYMMDD-slug/YYYYMMDD-slug.md`
-2. Required front matter:
+1. Create `src/content/docs/post/YYYY/MM/DD/slug/index.mdx`. The folder path is the URL
+   (`/post/YYYY/MM/DD/slug/`), so keep the slug stable once published.
+2. Front matter:
 
 ```yaml
 ---
 title: Post Title
 date: YYYY-MM-DD
-tags: ['posts']
-layout: blog-post
+tags: ["ai"]
 description: "One or two sentence description for meta/OG tags."
-ogImageSrc: image-filename.jpg   # optional — co-located image for og:image
+excerpt: "Shown on the home page and /post/ listing."   # falls back to description on the home page
+ogImage: ./image-filename.jpg   # optional — co-located image for og:image and the home page card
+draft: true                     # optional — excluded from production builds
 ---
 ```
 
-3. Drop images in the same directory. Reference them with the `image` shortcode:
+3. Drop images in the same directory, import them, and use the `Figure` component:
 
-```njk
-{% image "filename.jpg", "alt text", "(max-width: 375px) 320px, 800px", "Optional caption", "Optional credit" %}
+```mdx
+import Figure from "~/components/Figure.astro";
+import photo from "./filename.jpg";
+
+<Figure src={photo} alt="alt text" sizes="(max-width: 600px) 100vw, 600px" caption="Optional caption" credit="Optional credit" />
 ```
 
 Caption and credit both accept `[text](url)` links. The credit renders as a smaller line under the caption; use it for third-party image attribution (e.g. Creative Commons) so the caption stays free.
 
-## Notes
+Posts are MDX: no HTML comments (use `{/* */}`), and inline `style` attributes must be JSX objects.
 
-- `mindmap.njk` exists but is hidden (nav link commented out, excluded from sitemap) — it's broken.
+## Layout
+
+- `astro.config.mjs` — Starlight + Nova theme + blog plugin config, header nav, component overrides, analytics head tags.
+- `src/routeData.ts` — Starlight route middleware: turns off the docs sidebar, keeps a table of contents only on posts with ≥4 headings, and adds `og:image` / `twitter:image` (1200×630, via `src/lib/og.ts`).
+- `src/components/PostRail.astro` — right rail on posts at ≥72rem: "In this piece" contents (when present) and "More writing". Below 72rem the contents use Nova's mobile bar (`overrides/PageSidebar.astro`).
+- `src/components/overrides/` — Starlight component overrides (wordmark, page title, MarkdownContent composing Nova + starlight-blog, in-column TOC layout).
+- `src/content/i18n/en.json` — UI string overrides (e.g. "On this page" → "In this piece").
+- `src/content/docs/index.mdx` — home page (splash + `PostGrid`).
+- `src/pages/about.astro` — fetches the résumé at build time (`src/lib/resume.js`).
+- `src/pages/library.astro` — Goodreads widgets and link lists.
+- `src/pages/feed.xml.ts` — keeps the legacy `/feed.xml` URL; same feed as `/post/rss.xml`.
+- `src/pages/llms.txt.ts`, `llms-full.txt.ts`, `post/[...slug].md.ts` — [llms.txt](https://llmstxt.org) index, all-posts full text, and a plain-Markdown copy of each post. The MDX→Markdown conversion lives in `src/lib/llms.ts`; if a post uses a new MDX component, teach `toMarkdown` about it.
+- `public/` — static files served as-is (`/img/*`, `robots.txt`).

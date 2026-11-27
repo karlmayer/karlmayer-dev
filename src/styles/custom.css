@@ -1,0 +1,244 @@
+/* Overfit branding on top of starlight-theme-nova: blue accent, serif display type, figures. */
+
+:root {
+    --overfit-accent-font: "DM Serif Display", serif;
+    --sl-color-accent-low: #1a2b5c;
+    --sl-color-accent: #5c8fff;
+    --sl-color-accent-high: #c9d8ff;
+    --sl-color-text-accent: #5c8fff;
+}
+
+:root[data-theme="light"] {
+    --sl-color-accent-low: #d6e1ff;
+    --sl-color-accent: #2962ff;
+    --sl-color-accent-high: #0d2a80;
+    --sl-color-text-accent: #2962ff;
+}
+
+/* One column for every page (home grid, posts, About, Library), shared by the masthead. */
+:root:not([data-has-sidebar]) {
+    --sl-content-width: 75rem;
+}
+
+/*
+ * Masthead: the header row shares the body's column (same width, same side padding), so the
+ * wordmark lines up with the content's left edge and the theme toggle with its right edge.
+ * A double rule under the column replaces Nova's full-bleed hairline.
+ */
+header:has(.wordmark) {
+    padding-block: 0;
+    padding-inline: var(--sl-content-pad-x);
+    border-bottom: 0;
+}
+
+header:has(.wordmark) > div {
+    max-width: var(--sl-content-width);
+    margin-inline: auto;
+    padding-block: var(--sl-nav-pad-y);
+    border-bottom: 3px double var(--sl-color-gray-5);
+}
+
+/* Section labels: small tracked caps, pushed right next to search and the theme toggle. */
+header:has(.wordmark) nav {
+    justify-content: flex-end;
+}
+
+header:has(.wordmark) nav a {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--sl-color-gray-3);
+}
+
+header:has(.wordmark) nav a:hover,
+header:has(.wordmark) nav a[aria-current="page"] {
+    color: var(--sl-color-white);
+}
+
+header:has(.wordmark) nav a[aria-current="page"] {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.4em;
+}
+
+/* Nova's icon buttons are padded; pull the last one out so its glyph meets the column edge. */
+header:has(.wordmark) astro-theme-toggle {
+    margin-inline-end: -0.5rem;
+}
+
+/* Page head (every page): title runs straight into the body, no full-bleed divider. */
+.content-panel:has(h1[id="_top"]) {
+    padding-bottom: 0;
+}
+
+.content-panel + .content-panel {
+    border-top: 0;
+}
+
+/* Home page title is visually hidden, so its panel collapses entirely. */
+.content-panel:has(.sr-only h1) {
+    padding-block: 0;
+}
+
+/*
+ * Phones: two-tier masthead. Row 1 is the wordmark with search and the theme toggle at the
+ * right edge; row 2 is the section nav. Nova hides the nav and toggle below md; with no
+ * sidebar (so no mobile menu) we bring both back. Children: title, nav, search, tools.
+ */
+@media (width < 50rem) {
+    :root {
+        --sl-nav-height: 5.75rem;
+    }
+
+    header:has(.wordmark) > div {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        grid-template-areas:
+            "title search tools"
+            "nav nav nav";
+        align-items: center;
+        gap: 0.35rem 0.5rem;
+    }
+
+    header:has(.wordmark) > div > :nth-child(1) {
+        grid-area: title;
+    }
+
+    header:has(.wordmark) > div > nav {
+        grid-area: nav;
+        justify-content: flex-start;
+        gap: 1.5rem;
+        padding: 0;
+    }
+
+    header:has(.wordmark) > div > nav a {
+        display: inline-block;
+    }
+
+    header:has(.wordmark) > div > :nth-child(3) {
+        grid-area: search;
+    }
+
+    header:has(.wordmark) > div > :nth-child(4) {
+        grid-area: tools;
+        display: flex;
+    }
+
+    /* GitHub and RSS stay desktop-only; the toggle is enough on a phone. */
+    header:has(.wordmark) a[rel="me"] {
+        display: none;
+    }
+}
+
+h1[id="_top"] {
+    font-family: var(--overfit-accent-font);
+    font-weight: 400;
+}
+
+.sl-markdown-content a:not(.sl-link-card a, .sl-anchor-link, .not-content a) {
+    color: var(--sl-color-text-accent);
+}
+
+/* Blockquote copy button (src/scripts/enhance.ts) */
+.sl-markdown-content blockquote {
+    position: relative;
+    padding-inline-end: 2.5em;
+    cursor: pointer;
+}
+
+.blockquote-copy {
+    position: absolute;
+    top: 0.45em;
+    right: 0.45em;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--sl-color-gray-4);
+    padding: 0.2em;
+    line-height: 0;
+    opacity: 0;
+    transition:
+        opacity 0.15s,
+        color 0.15s;
+}
+
+.sl-markdown-content blockquote:hover .blockquote-copy,
+.blockquote-copy:focus-visible {
+    opacity: 1;
+}
+
+.blockquote-copy:hover {
+    color: var(--sl-color-white);
+}
+
+/* Figures from the <Figure> component: float right on wide screens. */
+.sl-markdown-content .picture {
+    float: right;
+    width: 50%;
+    margin: 0 0 0.5rem 2rem;
+}
+
+.sl-markdown-content .picture img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0.5rem;
+}
+
+.sl-markdown-content .picture figcaption {
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+    text-align: center;
+    padding-top: 0.3rem;
+}
+
+.sl-markdown-content .picture .credit {
+    display: block;
+    font-size: 0.65rem;
+    padding-top: 0.15rem;
+}
+
+.sl-markdown-content :is(h2, blockquote, hr) {
+    clear: right;
+}
+
+@media (width < 50rem) {
+    .sl-markdown-content .picture {
+        float: none;
+        width: 100%;
+        margin: 1rem 0;
+    }
+}
+
+/* starlight-blog: the dateline sits above the headline (PageTitle override); authors aren't shown.
+   Extra specificity beats the plugin's scoped styles, which load later. */
+.post-body .sl-markdown-content > .sl-blog-metadata,
+.sl-blog-preview .sl-blog-metadata-authors {
+    display: none;
+}
+
+.sl-blog-post-footer {
+    clear: both;
+}
+
+.sl-blog-preview-title,
+.sl-blog-pagination .sl-link-card .title {
+    font-family: var(--overfit-accent-font);
+    font-weight: 400;
+}
+
+/* "Can You Read It?" closing cursor. */
+.blink-cursor {
+    font-family: var(--sl-font-mono);
+    font-size: 1.2em;
+    color: #00ff41;
+    animation: blink 1.06s steps(1) infinite;
+}
+
+@keyframes blink {
+    50% {
+        visibility: hidden;
+    }
+}

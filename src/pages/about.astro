@@ -1,0 +1,69 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+
+import { getResume } from "~/lib/resume.js";
+
+const resume = await getResume();
+---
+
+<StarlightPage frontmatter={{ title: "About Me", description: "Who writes Overfit, and the longer story." }}>
+    <div class="about-bio">
+        <p>
+            I have a theory: the people most confident they understand the wave are usually the ones who didn't see
+            the reef. The reef doesn't care how certain you were. Overfit is my attempt to understand why — and to
+            get better at reading the break.
+        </p>
+        <p class="about-sep">· · ·</p>
+        <p>
+            Outside of work I spend my time losing at board games with good friends, raising three sons who keep me
+            honest, and married to a woman who has watched me be confidently wrong enough times to deserve a medal.
+        </p>
+        <p class="about-sep">· · ·</p>
+        <p>The longer story:</p>
+    </div>
+
+    <div class="not-content">
+        <Fragment set:html={resume.content} />
+    </div>
+</StarlightPage>
+
+{/* Fetched at build time, so it must be inline: Astro drops set:html on processed <style> tags. */}
+<style is:inline set:html={resume.styles}></style>
+
+<style is:global>
+    /*
+     * The résumé's stylesheet hardcodes a light palette. Map it onto theme tokens so it reads in
+     * light and dark. `:root` outranks the résumé's own rules, which load later in the page.
+     */
+    :root #resume {
+        background: transparent;
+        color: var(--sl-color-text);
+        font: inherit;
+    }
+
+    :root #resume a {
+        color: var(--sl-color-text-accent);
+    }
+
+    :root #resume section {
+        border-bottom-color: var(--sl-color-hairline);
+    }
+
+    :root #resume section h2 {
+        color: var(--sl-color-white);
+    }
+
+    :root #resume :is(em, .item .startDate, .item .endDate, #meta) {
+        color: var(--sl-color-gray-3);
+    }
+    /* Dinkus between bio sections. */
+    .about-sep {
+        margin-block: 1.5rem;
+        text-align: center;
+        font-family: var(--overfit-accent-font);
+        font-size: var(--sl-text-xl);
+        letter-spacing: 0.6em;
+        padding-inline-start: 0.6em; /* offsets trailing letter-spacing so it centres */
+        color: var(--sl-color-gray-2);
+    }
+</style>

@@ -1,0 +1,172 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+
+import fallback from "~/assets/overfit-og.png";
+
+interface Props {
+    limit?: number;
+}
+
+const { limit = 10 } = Astro.props;
+
+const allPosts = (await getCollection("docs", ({ id, data }) => id.startsWith("post/") && !(import.meta.env.PROD && data.draft)))
+    .sort((a, b) => b.data.date!.getTime() - a.data.date!.getTime());
+const posts = allPosts.slice(0, limit);
+---
+
+<div class="not-content">
+    <p class="tagline">Precision that misses the point.</p>
+    <div class="post-grid">
+        {
+            posts.map(({ id, data }) => (
+                <article class="post-card">
+                    <a class="post-card-media" href={`/${id}/`} tabindex="-1" aria-hidden="true">
+                        <Image src={data.ogImage ?? fallback} alt="" width={640} height={360} fit="cover" position="top" />
+                    </a>
+                    <time datetime={data.date!.toISOString()}>{data.date!.toISOString().slice(0, 10)}</time>
+                    <h2 class="post-card-title">
+                        <a href={`/${id}/`}>{data.title}</a>
+                    </h2>
+                    <p class="excerpt">{data.excerpt ?? data.description}</p>
+                    <a class="read-more" href={`/${id}/`} aria-label={`Read more on ${data.title}`}>
+                        Read more...
+                    </a>
+                </article>
+            ))
+        }
+    </div>
+    {allPosts.length > limit && <p class="post-grid-more"><a href="/post/">All writing →</a></p>}
+</div>
+
+<script>
+    // Whole card is clickable, but text stays selectable and inner links still work.
+    document.querySelectorAll<HTMLElement>(".post-card").forEach((card) => {
+        card.addEventListener("click", (e) => {
+            if ((e.target as Element).closest("a, button")) return;
+            if (window.getSelection()?.toString()) return;
+            card.querySelector<HTMLAnchorElement>(".post-card-title a")?.click();
+        });
+    });
+</script>
+
+<style>
+    .tagline {
+        margin: 0.5rem 0 1.75rem;
+        font-family: var(--overfit-accent-font);
+        font-style: italic;
+        font-size: var(--sl-text-2xl);
+        line-height: 1.3;
+        color: var(--sl-color-gray-2);
+    }
+
+    .post-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1.25rem;
+    }
+
+    .post-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1.1rem 1.2rem;
+        border: 1px solid color-mix(in srgb, var(--sl-color-gray-6) 70%, var(--sl-color-gray-3));
+        border-radius: 10px;
+        background: color-mix(in srgb, var(--sl-color-gray-6) 22%, var(--sl-color-bg));
+        cursor: pointer;
+        transition:
+            border-color 0.2s ease,
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .post-card:hover {
+        transform: translateY(-2px);
+        border-color: color-mix(in srgb, var(--sl-color-accent) 45%, var(--sl-color-gray-6));
+        box-shadow: 0 6px 18px color-mix(in srgb, var(--sl-color-white) 8%, transparent);
+    }
+
+    .post-card-media {
+        display: block;
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 0.85rem;
+        aspect-ratio: 16 / 9;
+        background: color-mix(in srgb, var(--sl-color-gray-6) 65%, var(--sl-color-bg));
+    }
+
+    .post-card-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+        transition: transform 0.3s ease;
+    }
+
+    .post-card:hover .post-card-media img {
+        transform: scale(1.03);
+    }
+
+    .post-card time {
+        color: var(--sl-color-gray-3);
+        font-size: var(--sl-text-xs);
+    }
+
+    .post-card-title {
+        margin: 0.2rem 0 0.45rem;
+        font-family: var(--overfit-accent-font);
+        font-weight: 400;
+        font-size: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .post-card-title a {
+        color: var(--sl-color-white);
+        text-decoration: none;
+    }
+
+    .post-card-title a:hover {
+        color: var(--sl-color-text-accent);
+    }
+
+    .excerpt {
+        color: var(--sl-color-gray-3);
+        margin: 0 0 0.75rem;
+        line-height: 1.6;
+    }
+
+    .read-more {
+        margin-top: auto;
+        font-size: 0.95rem;
+        color: var(--sl-color-text-accent);
+        text-decoration: underline;
+        text-decoration-color: transparent;
+        transition: text-decoration-color 0.15s;
+    }
+
+    .read-more:hover {
+        text-decoration-color: currentcolor;
+    }
+
+    .post-grid-more {
+        margin-top: 2rem;
+        text-align: center;
+    }
+
+    .post-grid-more a {
+        color: var(--sl-color-text-accent);
+    }
+
+    @media (width <= 67.5rem) {
+        .post-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (width <= 38.75rem) {
+        .post-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

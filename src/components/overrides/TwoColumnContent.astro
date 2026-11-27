@@ -1,0 +1,16 @@
+---
+// Single column: Nova reserves a viewport-edge right sidebar for the table of contents;
+// posts carry their own in-column rail instead.
+---
+
+<div>
+    <slot name="right-sidebar" />
+    <div class="main-pane"><slot /></div>
+</div>
+
+<style>
+    .main-pane {
+        isolation: isolate;
+        overflow-x: hidden;
+    }
+</style>

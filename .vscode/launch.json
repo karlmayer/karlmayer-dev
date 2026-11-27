@@ -8,7 +8,7 @@
             "type": "vscode-edge-devtools.debug",
             "request": "launch",
             "name": "Launch Microsoft Edge and open the Edge DevTools",
-            "url": "http://localhost:8080",
+            "url": "http://localhost:4321",
             "webRoot": "${workspaceFolder}"
         },
         {
@@ -17,8 +17,8 @@
             "name": "Launch Program",
             "runtimeExecutable": "npx",
             "runtimeArgs": [
-                "@11ty/eleventy",
-                "--serve"
+                "astro",
+                "dev"
             ],
             "autoAttachChildProcesses": true,
             "console": "integratedTerminal",

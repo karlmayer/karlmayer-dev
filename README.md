@@ -1,6 +1,6 @@
 # karlmayer.dev
 Codebase & articles for my blog & personal website: [karlmayer.dev](https://karlmayer.dev)  
-Rendered using [11ty](https://www.11ty.dev/) and deployed using GitHub Pages
+Rendered using [Astro](https://astro.build/) + [Starlight](https://starlight.astro.build/) and deployed using GitHub Pages
 
 ## Licenses
 **source code:** [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)  

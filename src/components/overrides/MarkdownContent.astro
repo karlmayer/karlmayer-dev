@@ -1,0 +1,60 @@
+---
+// Nova and starlight-blog both override MarkdownContent. Posts get starlight-blog's version
+// (tags, prev/next links) plus Nova's code-copy buttons and the right rail; everything else
+// gets Nova's.
+import BlogMarkdownContent from "starlight-blog/components/MarkdownContent.astro";
+import CodeCopy from "starlight-theme-nova/components/CodeCopy.astro";
+import NovaMarkdownContent from "starlight-theme-nova/components/MarkdownContent.astro";
+
+import PostRail from "~/components/PostRail.astro";
+
+const { id, entry } = Astro.locals.starlightRoute;
+const isPost = id.startsWith("post/") && entry.data.date !== undefined;
+---
+
+{
+    isPost ? (
+        <div class="post-layout">
+            <div class="post-body">
+                <BlogMarkdownContent>
+                    <slot />
+                </BlogMarkdownContent>
+                <CodeCopy />
+            </div>
+            <PostRail />
+        </div>
+    ) : (
+        <NovaMarkdownContent>
+            <slot />
+        </NovaMarkdownContent>
+    )
+}
+
+<script>
+    import "~/scripts/enhance";
+</script>
+
+<style>
+    .post-layout > :global(.post-rail) {
+        display: none;
+    }
+
+    /* Wide screens: text column plus a sticky rail, both inside the page column. */
+    @media (width >= 72rem) {
+        .post-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 16rem;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .post-layout > :global(.post-rail) {
+            display: flex;
+            position: sticky;
+            top: calc(var(--sl-nav-height) + 1.5rem);
+            max-height: calc(100vh - var(--sl-nav-height) - 3rem);
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+    }
+</style>

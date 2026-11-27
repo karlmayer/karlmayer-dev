@@ -1,18 +1,19 @@
-module.exports = [
+export default [
     {
-        files: [".eleventy.js"],
+        ignores: ["dist/", ".astro/", "node_modules/"],
+    },
+    {
+        files: ["**/*.js", "**/*.mjs"],
         languageOptions: {
             ecmaVersion: 2022,
-            sourceType: "commonjs",
+            sourceType: "module",
             globals: {
-                require: "readonly",
-                module: "readonly",
-                exports: "readonly",
-                __dirname: "readonly",
-                __filename: "readonly",
                 console: "readonly",
                 process: "readonly",
-            }
+                fetch: "readonly",
+                AbortSignal: "readonly",
+                URL: "readonly",
+            },
         },
         rules: {
             "no-unused-vars": "warn",
@@ -20,6 +21,6 @@ module.exports = [
             "eqeqeq": "error",
             "no-var": "error",
             "prefer-const": "warn",
-        }
-    }
+        },
+    },
 ];

@@ -1,0 +1,41 @@
+---
+import Default from "@astrojs/starlight/components/PageTitle.astro";
+
+import { bylineOf } from "~/lib/authors";
+
+// Posts get a newspaper dateline above the headline.
+// The home page title is visually hidden; the wordmark already names the site.
+const { id, entry } = Astro.locals.starlightRoute;
+const date = id.startsWith("post/") ? entry.data.date : undefined;
+const isHome = id === "";
+
+// Front-matter dates are midnight UTC; format in UTC so the day never shifts.
+const dateline = date?.toLocaleDateString("en-US", { timeZone: "UTC", month: "long", day: "numeric", year: "numeric" });
+// Only guest posts name an author; Karl's own posts don't need a byline on his blog.
+const byline = date && bylineOf(entry.data.authors);
+---
+
+{
+    date && (
+        <p class="dateline">
+            <time datetime={date.toISOString()}>{dateline}</time>
+            {byline && <span> · By {byline}</span>}
+        </p>
+    )
+}
+<div class:list={{ "sr-only": isHome }}><Default /></div>
+
+<style>
+    .dateline {
+        margin: 0;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--sl-color-gray-3);
+    }
+
+    .dateline + div :global(h1) {
+        margin-top: 0.5rem;
+    }
+</style>

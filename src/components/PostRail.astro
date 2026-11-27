@@ -1,0 +1,115 @@
+---
+// Right rail on posts (wide screens only): contents for longer posts, then recent writing.
+import TableOfContents from "@astrojs/starlight/components/TableOfContents.astro";
+
+const MORE_COUNT = 6;
+
+const { id, toc } = Astro.locals.starlightRoute;
+const more = Astro.locals.starlightBlog.posts.filter(({ entry }) => entry.id !== id).slice(0, MORE_COUNT);
+---
+
+<aside class="post-rail not-content" aria-label="Article navigation">
+    {toc && <TableOfContents />}
+    <nav aria-labelledby="post-rail-more">
+        <h2 id="post-rail-more">More writing</h2>
+        <ul>
+            {
+                more.map(({ entry, href }) => (
+                    <li>
+                        <a href={href}>
+                            <time datetime={entry.data.date.toISOString()}>
+                                {entry.data.date.toISOString().slice(0, 10)}
+                            </time>
+                            <span>{entry.data.title}</span>
+                        </a>
+                    </li>
+                ))
+            }
+        </ul>
+        <a class="all" href="/post/">All writing →</a>
+    </nav>
+</aside>
+
+<style>
+    .post-rail {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        padding-inline-start: 1.5rem;
+        border-inline-start: 1px solid var(--sl-color-hairline);
+        font-size: var(--sl-text-sm);
+    }
+
+    /* Section labels match the header nav: small tracked caps. */
+    .post-rail :global(h2) {
+        margin: 0 0 0.75rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--sl-color-gray-3);
+    }
+
+    /* Starlight's contents list: current section highlighted by its own scroll tracking. */
+    .post-rail :global(starlight-toc ul) {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .post-rail :global(starlight-toc a) {
+        display: block;
+        padding-block: 0.2rem;
+        line-height: 1.35;
+        text-decoration: none;
+        color: var(--sl-color-gray-3);
+    }
+
+    .post-rail :global(starlight-toc li:has(> a[href="#_top"])) {
+        display: none;
+    }
+
+    .post-rail :global(starlight-toc a:hover),
+    .post-rail :global(starlight-toc a[aria-current="true"]) {
+        color: var(--sl-color-white);
+    }
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    li a {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        text-decoration: none;
+    }
+
+    li time {
+        font-size: var(--sl-text-2xs);
+        color: var(--sl-color-gray-3);
+    }
+
+    li span {
+        font-family: var(--overfit-accent-font);
+        font-size: var(--sl-text-base);
+        line-height: 1.25;
+        color: var(--sl-color-white);
+    }
+
+    li a:hover span {
+        color: var(--sl-color-text-accent);
+    }
+
+    .all {
+        display: inline-block;
+        margin-top: 1rem;
+        color: var(--sl-color-text-accent);
+        text-decoration: none;
+    }
+</style>
