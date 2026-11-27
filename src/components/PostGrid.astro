@@ -8,7 +8,7 @@ interface Props {
     limit?: number;
 }
 
-const { limit = 10 } = Astro.props;
+const { limit = 12 } = Astro.props;
 
 const allPosts = (await getCollection("docs", ({ id, data }) => id.startsWith("post/") && !(import.meta.env.PROD && data.draft)))
     .sort((a, b) => b.data.date!.getTime() - a.data.date!.getTime());
