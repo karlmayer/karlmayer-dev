@@ -27,16 +27,34 @@ const resume = await getResume();
     </div>
 </StarlightPage>
 
-<style is:global set:html={resume.styles}></style>
+{/* Fetched at build time, so it must be inline: Astro drops set:html on processed <style> tags. */}
+<style is:inline set:html={resume.styles}></style>
 
 <style is:global>
-    #resume {
+    /*
+     * The résumé's stylesheet hardcodes a light palette. Map it onto theme tokens so it reads in
+     * light and dark. `:root` outranks the résumé's own rules, which load later in the page.
+     */
+    :root #resume {
+        background: transparent;
         color: var(--sl-color-text);
-        background-color: var(--sl-color-bg);
+        font: inherit;
     }
-    #resume a,
-    #resume .section h2 {
+
+    :root #resume a {
         color: var(--sl-color-text-accent);
+    }
+
+    :root #resume section {
+        border-bottom-color: var(--sl-color-hairline);
+    }
+
+    :root #resume section h2 {
+        color: var(--sl-color-white);
+    }
+
+    :root #resume :is(em, .item .startDate, .item .endDate, #meta) {
+        color: var(--sl-color-gray-3);
     }
     /* Dinkus between bio sections. */
     .about-sep {
