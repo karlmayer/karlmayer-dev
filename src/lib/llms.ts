@@ -1,6 +1,8 @@
 // Plain-Markdown views of posts for llms.txt (https://llmstxt.org).
 import { getCollection, type CollectionEntry } from "astro:content";
 
+import { bylineOf } from "~/lib/authors";
+
 export type Post = CollectionEntry<"docs"> & { data: { date: Date } };
 
 export async function getPosts(): Promise<Post[]> {
@@ -43,7 +45,7 @@ export function toMarkdown(post: Post, site: URL): string {
     const header = [
         `# ${post.data.title}`,
         post.data.description && `> ${post.data.description}`,
-        `Karl Mayer · ${isoDate(post.data.date)} · ${postUrl(post, site)}`,
+        `${bylineOf(post.data.authors) ?? "Karl Mayer"} · ${isoDate(post.data.date)} · ${postUrl(post, site)}`,
     ].filter(Boolean);
 
     return `${header.join("\n\n")}\n\n${body}\n`;
